@@ -1,0 +1,254 @@
+html {
+  background-color: #F2F2F2;
+
+  margin-top: 2%;
+  margin-bottom: 2%;
+
+  margin-left: 10%;
+  margin-right:10%;
+}
+
+body {
+    background-color: inherit;
+
+    display: grid;
+    grid-template-rows: 10% 90%;
+    grid-row-gap: 20px;
+}
+
+.header {
+    background-color: inherit;
+
+    grid-row: 1/2;
+
+    display: grid;
+    grid-template-columns: 85% 14%;
+    grid-column-gap: 1%;
+    grid-template-rows: auto;
+}
+
+.container {
+    grid-row: 2/2;
+    position: relative;
+
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+
+    max-width: 100vw;
+    max-height: auto;
+
+    border-radius: 0.2em;
+
+    overflow: hidden;
+}
+
+#searchBar {
+    grid-column: 1/2;
+}
+
+#filters {
+  grid-column: 2/2;
+
+  display: flex;
+}
+
+#dropdown_button {
+
+  background-image: url( 'images/filter_button.png' );
+  background-size: cover;
+
+  width: 100%;
+  height: 100%;
+
+  min-width: 100%;
+
+  border-radius: 0.2em;
+  border: 1px solid grey;
+}
+
+.dropdown {
+    width: 100%;
+    position: relative;
+    display: inline-block;
+}
+
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f1f1f1;
+    min-width: 100%;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 500;
+}
+
+
+.dropdown-content a {
+    color: black;
+    padding: 10px 10px;
+    text-decoration: none;
+    display: block;
+}
+
+/* Show the dropdown menu*/
+.show {display:block;}
+
+.form-control {
+    display: block;
+    height: 40px;
+    border-radius: 0.2em;
+    border: 1px solid grey;
+    padding-left: 20px;
+    font-size: 24px;
+}
+
+.btn-primary {
+  height: 40px;
+}
+
+#image_holder {
+  background-color: transparent;
+
+  width: 100vw;
+  height: 80vh;
+
+  border-radius: 0.2em;
+  border: 1px solid grey;
+  z-index: 1;
+  overflow: hidden;
+}
+
+#map_image {
+  position: absolute;
+  background-position: center center;
+
+  background-image: url('images/campus_map.png');
+  background-size: 100%;
+  background-repeat: no-repeat;
+
+  width: 3612px;
+  height: 2052px;
+
+  top: -525px;
+  left: -1350px;
+
+}
+
+.fa {
+  font-size: 30px;
+}
+
+.magnify_buttons {
+
+  position: absolute;
+  display: flex;
+  flex-flow: column;
+
+  padding-right: 10px;
+  padding-bottom: 10px;
+  z-index: 2;
+}
+
+#plus {
+
+  background-color: #F2F2F2;
+
+  border-radius: 0.2em;
+  border: 1px solid grey;
+  border-bottom: none;
+}
+
+#minus {
+  background-color: #F2F2F2;
+
+  border-radius: 0.2em;
+  border: 1px solid grey;
+}
+
+.magnify_buttons: hover {
+  color: red;
+}
+
+#map_image div.elevator {
+
+  background-image: url( 'images/elevator_icon1.png' );
+  background-size: cover;
+  display: flex;
+
+  border-radius: 0.2em;
+  border: 1px solid grey;
+  z-index: 5;
+}
+
+#map_image div.ramp {
+
+  background-image: url( 'images/ramp_icon1.png' );
+  background-size: cover;
+  display: flex;
+
+  border-radius: 0.2em;
+  border: 1px solid grey;
+  z-index: 5;
+}
+
+#holder {
+	margin: 50px auto;
+	width: 50px;
+	height: 50px;
+	position: relative;
+
+}
+.dot {
+	width: 30px;
+	height: 30px;
+	border: 5px solid white;
+	-webkit-border-radius: 30px;
+	-moz-border-radius: 30px;
+	border-radius: 30px;
+	background-color: #478dff;
+	z-index: 10;
+	position: absolute;
+	left: 15px;
+	top: 15px;
+}
+.pulse {
+	border: 10px solid #478dff;
+	background: transparent;
+	-webkit-border-radius: 60px;
+	-moz-border-radius: 60px;
+	border-radius: 80px;
+	height: 60px;
+	width: 60px;
+	-webkit-animation: pulse 3s ease-out;
+	animation: pulse 3s ease-out;
+	-webkit-animation-iteration-count: infinite;
+	animation-iteration-count: infinite;
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	z-index: 1;
+	opacity: 0;
+}
+@-webkit-keyframes "pulse" {
+  0% {
+    -webkit-transform: scale(0);
+    opacity: 0.0;
+  }
+  25% {
+    -webkit-transform: scale(0);
+    opacity: 0.1;
+  }
+  50% {
+    -webkit-transform: scale(0.1);
+    opacity: 0.3;
+  }
+  75% {
+    -webkit-transform: scale(0.5);
+    opacity: 0.5;
+  }
+  100% {
+    -webkit-transform: scale(1);
+    opacity: 0.0;
+  }
+}
