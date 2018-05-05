@@ -112,6 +112,7 @@ document.addEventListener('DOMContentLoaded', function () {
   // Attaching event listeners to drag map around
   document.getElementById('image_holder').addEventListener('mousedown', function (evt) {
 
+    console.log("mouse down");
     evt.preventDefault();
 
     var img = Util.one("#map_image");
@@ -139,12 +140,160 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   });
 
+  // Register touch event handlers
+  // from https://developer.mozilla.org/en-US/docs/Web/API/Touch_events/Using_Touch_Events
+  document.getElementById('image_holder').addEventListener('touchstart', process_touchstart, false);
+  document.getElementById('image_holder').addEventListener('touchmove', process_touchmove, false);
+  document.getElementById('image_holder').addEventListener('touchcancel', process_touchcancel, false);
+  document.getElementById('image_holder').addEventListener('touchend', process_touchend, false);
+
   document.addEventListener('mouseup', function (evt) {
     mapDragMode = false;
   });
 
 
 });
+
+// List of all active touches
+var ongoingTouches = [];
+// Positions the touches start in
+var touchPositions = [];
+// Original distance between two pinching fingers
+var pinchDist = 0f;
+
+// Copy the given touch event
+// from https://developer.mozilla.org/en-US/docs/Web/API/Touch_events/Using_Touch_Events
+function copyTouch(touch) {
+  return { identifier: touch.identifier, pageX: touch.pageX, pageY: touch.pageY };
+}
+
+// Find index of an ongoing touch
+// from https://developer.mozilla.org/en-US/docs/Web/API/Touch_events
+function ongoingTouchIndexById(idToFind) {
+  for (var i = 0; i < ongoingTouches.length; i++) {
+    var id = ongoingTouches[i].identifier;
+    
+    if (id == idToFind) {
+      return i;
+    }
+  }
+  return -1;    // not found
+}
+
+// Figure out how many fingers are active and make it good
+function processNumFingers (evt) {
+  // store the map position if dragging (one finger)
+  if (ongoingTouches.length == 1){
+    console.log("woo 1 touch");
+
+    var img = Util.one("#map_image");
+    mapDragCorner = [Util.offset(img).left, Util.offset(img).top];
+    mapDragMode = true;
+  }
+
+  // Setup the system for pinching (two fingers)
+  if (ongoingTouches.length == 2){
+    pinchDist = sqrt((touchPositions[0]["touchX"] - touchPositions[1]["touchX"]) ** 2
+                      + (touchPositions[0]["touchY"] - touchPositions[1]["touchY"]) ** 2);
+  }
+}
+
+// Handle any touch_start events
+// from https://developer.mozilla.org/en-US/docs/Web/API/Touch_events
+function process_touchstart (evt) {
+  evt.preventDefault();
+  console.log("touchstart.");
+  var touches = evt.changedTouches;
+        
+  for (var i = 0; i < touches.length; i++) {
+    console.log("touchstart:" + i + "...");
+    ongoingTouches.push(copyTouch(touches[i]));
+    touchPositions.push({"touchX" : touches[i].pageX, "touchY" : touches[i].pageY});
+    console.log("touchstart:" + i + ".");
+  }
+
+  // Setup for however many fingers are touching
+  processNumFingers(evt);
+}
+
+// Handle any touch_move events
+// from https://developer.mozilla.org/en-US/docs/Web/API/Touch_events
+function process_touchmove(evt) {
+  evt.preventDefault();
+  var touches = evt.changedTouches;
+
+  for (var i = 0; i < touches.length; i++) {
+    var idx = ongoingTouchIndexById(touches[i].identifier);
+
+    if (idx >= 0) {
+      console.log("continuing touch "+idx);
+
+      ongoingTouches.splice(idx, 1, copyTouch(touches[i]));  // swap in the new touch record
+      console.log(".");
+    } else {
+      console.log("can't figure out which touch to continue");
+    }
+  }
+
+  // Update the drag position if necessary
+  if (ongoingTouches.length == 1){
+    // Find image and its parents
+      var holderHolder = Util.one(".map_container");
+      var img = Util.one("#map_image");
+
+      // Change the image offset by the mouse position delta
+      Util.css(img, {"left" : mapDragCorner[0] - Util.offset(holderHolder).left 
+                        + (ongoingTouches[0].pageX - touchPositions[0]["touchX"]) + "px",
+                     "top" : mapDragCorner[1] - Util.offset(holderHolder).top
+                        + (ongoingTouches[0].pageY - touchPositions[0]["touchY"]) + "px",
+                      "z-index" : 3});
+  }
+
+  // Update the zoom if necessary
+  if (ongoingTouches.length == 2){
+    var currPinch = sqrt((ongoingTouches[0].pageX - ongoingTouches[1].pageX) ** 2
+                      + (ongoingTouches[0].pageY - ongoingTouches[1].pageY) ** 2);
+    var zoomScale = currPinch / pinchDist;
+    console.log("Zoom scale: " + zoomScale);
+  }
+}
+
+// Handle any touch_end events
+// from https://developer.mozilla.org/en-US/docs/Web/API/Touch_events
+function process_touchend(evt) {
+  evt.preventDefault();
+  console.log("touchend");
+  var touches = evt.changedTouches;
+
+  for (var i = 0; i < touches.length; i++) {
+    var idx = ongoingTouchIndexById(touches[i].identifier);
+
+    if (idx >= 0) {
+
+      ongoingTouches.splice(idx, 1);  // remove it; we're done
+      touchPositions.splice(idx, 1);
+    } else {
+      console.log("can't figure out which touch to end");
+    }
+  }
+
+  // Setup for however many fingers are touching
+  processNumFingers(evt);
+}
+
+// Handle any canceled touch events
+// from https://developer.mozilla.org/en-US/docs/Web/API/Touch_events
+function process_touchcancel(evt) {
+  evt.preventDefault();
+  console.log("touchcancel.");
+  var touches = evt.changedTouches;
+  
+  for (var i = 0; i < touches.length; i++) {
+    var idx = ongoingTouchIndexById(touches[i].identifier);
+    ongoingTouches.splice(idx, 1);  // remove it; we're done
+    touchPositions.splice(idx, 1);
+  }
+}
 
 
 // Handles selection changes in the filters dropdown for elevators
