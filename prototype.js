@@ -8,6 +8,7 @@ var mapDragMouse;
 var current_loc = [1800, 750];
 var allElevators = [[2000, 1000], [1600, 1000], [1850, 780]];
 var allRamps = [[2100, 800], [1500, 900]];
+var allTraffic = [[1600, 890], [1700, 850], [1800, 810], [1900, 760], [2000, 710]];
 
 
 // Used to show filters in a dropdown style
@@ -19,6 +20,8 @@ function showFilters() {
 document.addEventListener('DOMContentLoaded', function () {
   document.querySelector('#elevators').addEventListener('change', elevatorSelectionChangeHandler);
   document.querySelector('#ramps').addEventListener('change', rampSelectionChangeHandler);
+  document.querySelector('#sliding_doors').addEventListener('change', rampSelectionChangeHandler);
+  document.querySelector('#high_traffic').addEventListener('change', trafficSelectionChangeHandler);
 
   // Adding location marker to the map
   var pulse_holder = Util.create("div", {"id": "holder"});
@@ -43,6 +46,16 @@ document.addEventListener('DOMContentLoaded', function () {
     Util.css(cell, {"height": "50px", "width" : "50px", "position": "absolute",
                     "top": allRamps[ii][1] + "px", "left": allRamps[ii][0] + "px",
                     "display": "none", "z-index" : 5});
+
+    Util.one("#map_image").appendChild(cell);
+  }
+
+  // Adding all high traffic markers to the map with no visibility
+  for (var ii = 0; ii < allTraffic.length; ii += 1) {
+    var cell = Util.create("div", {"id": "traffic-" + ii, "class": "high_traffic"});
+    Util.css(cell, {"height": "30px", "width" : "100px", "position": "absolute",
+                    "top": allTraffic[ii][1] + "px", "left": allTraffic[ii][0] + "px",
+                    "display": "none", "z-index" : 4, "opacity":0.7, "transform": "rotate(-22deg)"});
 
     Util.one("#map_image").appendChild(cell);
   }
@@ -166,6 +179,24 @@ function rampSelectionChangeHandler() {
     for (var i = 0; i < holdAllRamps.length; i++) {
 
       holdAllRamps[i].style.display = "none";
+    }
+  }
+}
+
+// Handles selection changes in the filters dropdown for traffic
+function trafficSelectionChangeHandler() {
+
+  var holdAllTraffic = document.getElementsByClassName('high_traffic');
+
+  if (high_traffic.checked) {
+    for (var i = 0; i < holdAllTraffic.length; i++) {
+
+      holdAllTraffic[i].style.display = "flex";
+    }
+  } else {
+    for (var i = 0; i < holdAllTraffic.length; i++) {
+
+      holdAllTraffic[i].style.display = "none";
     }
   }
 }
