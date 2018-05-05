@@ -159,7 +159,7 @@ var ongoingTouches = [];
 // Positions the touches start in
 var touchPositions = [];
 // Original distance between two pinching fingers
-var pinchDist = 0f;
+var pinchDist = 0;
 
 // Copy the given touch event
 // from https://developer.mozilla.org/en-US/docs/Web/API/Touch_events/Using_Touch_Events
@@ -172,7 +172,7 @@ function copyTouch(touch) {
 function ongoingTouchIndexById(idToFind) {
   for (var i = 0; i < ongoingTouches.length; i++) {
     var id = ongoingTouches[i].identifier;
-    
+
     if (id == idToFind) {
       return i;
     }
@@ -204,7 +204,7 @@ function process_touchstart (evt) {
   evt.preventDefault();
   console.log("touchstart.");
   var touches = evt.changedTouches;
-        
+
   for (var i = 0; i < touches.length; i++) {
     console.log("touchstart:" + i + "...");
     ongoingTouches.push(copyTouch(touches[i]));
@@ -242,7 +242,7 @@ function process_touchmove(evt) {
       var img = Util.one("#map_image");
 
       // Change the image offset by the mouse position delta
-      Util.css(img, {"left" : mapDragCorner[0] - Util.offset(holderHolder).left 
+      Util.css(img, {"left" : mapDragCorner[0] - Util.offset(holderHolder).left
                         + (ongoingTouches[0].pageX - touchPositions[0]["touchX"]) + "px",
                      "top" : mapDragCorner[1] - Util.offset(holderHolder).top
                         + (ongoingTouches[0].pageY - touchPositions[0]["touchY"]) + "px",
@@ -287,7 +287,7 @@ function process_touchcancel(evt) {
   evt.preventDefault();
   console.log("touchcancel.");
   var touches = evt.changedTouches;
-  
+
   for (var i = 0; i < touches.length; i++) {
     var idx = ongoingTouchIndexById(touches[i].identifier);
     ongoingTouches.splice(idx, 1);  // remove it; we're done
