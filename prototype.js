@@ -145,6 +145,8 @@ document.addEventListener('DOMContentLoaded', function () {
 var ongoingTouches = [];
 // Positions the touches start in
 var touchPositions = [];
+// Original distance between two pinching fingers
+var pinchDist = 0f;
 
 // Copy the given touch event
 // from https://developer.mozilla.org/en-US/docs/Web/API/Touch_events/Using_Touch_Events
@@ -165,6 +167,24 @@ function ongoingTouchIndexById(idToFind) {
   return -1;    // not found
 }
 
+// Figure out how many fingers are active and make it good
+function processNumFingers (evt) {
+  // store the map position if dragging (one finger)
+  if (ongoingTouches.length == 1){
+    console.log("woo 1 touch");
+
+    var img = Util.one("#map_image");
+    mapDragCorner = [Util.offset(img).left, Util.offset(img).top];
+    mapDragMode = true;
+  }
+
+  // Setup the system for pinching (two fingers)
+  if (ongoingTouches.length == 2){
+    pinchDist = sqrt((touchPositions[0]["touchX"] - touchPositions[1]["touchX"]) ** 2
+                      + (touchPositions[0]["touchY"] - touchPositions[1]["touchY"]) ** 2);
+  }
+}
+
 // Handle any touch_start events
 // from https://developer.mozilla.org/en-US/docs/Web/API/Touch_events
 function process_touchstart (evt) {
@@ -179,14 +199,8 @@ function process_touchstart (evt) {
     console.log("touchstart:" + i + ".");
   }
 
-  // store the map position if dragging (one finger)
-  if (ongoingTouches.length == 1){
-    console.log("woo 1 touch");
-
-    var img = Util.one("#map_image");
-    mapDragCorner = [Util.offset(img).left, Util.offset(img).top];
-    mapDragMode = true;
-  }
+  // Setup for however many fingers are touching
+  processNumFingers(evt);
 }
 
 // Handle any touch_move events
@@ -208,12 +222,11 @@ function process_touchmove(evt) {
     }
   }
 
+  // Update the drag position if necessary
   if (ongoingTouches.length == 1){
     // Find image and its parents
       var holderHolder = Util.one(".map_container");
       var img = Util.one("#map_image");
-
-      console.log("mooove");
 
       // Change the image offset by the mouse position delta
       Util.css(img, {"left" : mapDragCorner[0] - Util.offset(holderHolder).left 
@@ -221,8 +234,14 @@ function process_touchmove(evt) {
                      "top" : mapDragCorner[1] - Util.offset(holderHolder).top
                         + (ongoingTouches[0].pageY - touchPositions[0]["touchY"]) + "px",
                       "z-index" : 3});
+  }
 
-    console.log((ongoingTouches[0].pageY));
+  // Update the zoom if necessary
+  if (ongoingTouches.length == 2){
+    var currPinch = sqrt((ongoingTouches[0].pageX - ongoingTouches[1].pageX) ** 2
+                      + (ongoingTouches[0].pageY - ongoingTouches[1].pageY) ** 2);
+    var zoomScale = currPinch / pinchDist;
+    console.log("Zoom scale: " + zoomScale);
   }
 }
 
@@ -244,6 +263,9 @@ function process_touchend(evt) {
       console.log("can't figure out which touch to end");
     }
   }
+
+  // Setup for however many fingers are touching
+  processNumFingers(evt);
 }
 
 // Handle any canceled touch events
