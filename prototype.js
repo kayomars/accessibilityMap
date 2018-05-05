@@ -109,12 +109,20 @@ document.addEventListener('DOMContentLoaded', function () {
 
   document.getElementById('image_holder').addEventListener('mousemove', function (evt) {
     if (mapDragMode) {
-      console.log(evt.clientX);
+
+      // Find image and its parents
       var holder = Util.one("#image_holder");
+      var holderHolder = Util.one(".container");
       var img = Util.one("#map_image");
-      Util.css(img, {"left" : evt.clientX + (mapDragCorner[0] - mapDragMouse[0]) - Util.offset(holder).left + "px",
-                               "top" : evt.clientY + (mapDragCorner[1] - mapDragMouse[1]) - Util.offset(holder).top + "px",
+
+      // Change the image offset by the mouse position delta
+      Util.css(img, {"left" : mapDragCorner[0] + (evt.clientX - mapDragMouse[0])
+                          - Util.offset(holderHolder).left + "px",
+                     "top" : mapDragCorner[1] + (evt.clientY - mapDragMouse[1])
+                          - Util.offset(holderHolder).top + "px",
                                "z-index" : 3});
+      // img.style.left = mapDragCorner[0] + (evt.clientX - mapDragMouse[0]);
+      // img.style.top = mapDragCorner[1];
     }
   });
 
