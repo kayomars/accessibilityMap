@@ -112,7 +112,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
       // Find image and its parents
       var holder = Util.one("#image_holder");
-      var holderHolder = Util.one(".container");
+      var holderHolder = Util.one(".map_container");
       var img = Util.one("#map_image");
 
       // Change the image offset by the mouse position delta
