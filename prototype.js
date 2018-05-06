@@ -8,7 +8,7 @@ var mapDragMouse;
 var current_loc = [1800, 750];
 var allElevators = [[2000, 1000], [1600, 1000], [1850, 780]];
 var allRamps = [[2100, 800], [1500, 900]];
-var allTraffic = [[1600, 890], [1700, 850], [1800, 810], [1900, 760], [2000, 710]];
+var allTraffic = [[1600, 890], [1710, 845], [1820, 800], [1930, 745]];
 
 
 // Used to show filters in a dropdown style
@@ -53,7 +53,7 @@ document.addEventListener('DOMContentLoaded', function () {
   // Adding all high traffic markers to the map with no visibility
   for (var ii = 0; ii < allTraffic.length; ii += 1) {
     var cell = Util.create("div", {"id": "traffic-" + ii, "class": "high_traffic"});
-    Util.css(cell, {"height": "30px", "width" : "100px", "position": "absolute",
+    Util.css(cell, {"height": "30px", "width" : "120px", "position": "absolute",
                     "top": allTraffic[ii][1] + "px", "left": allTraffic[ii][0] + "px",
                     "display": "none", "z-index" : 4, "opacity":0.7, "transform": "rotate(-22deg)"});
 
