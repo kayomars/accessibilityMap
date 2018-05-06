@@ -231,7 +231,7 @@ body {
 	z-index: 1;
 	opacity: 0;
 }
-@-webkit-keyframes "pulse" {
+@-webkit-keyframes pulse {
   0% {
     -webkit-transform: scale(0);
     opacity: 0.0;
@@ -253,3 +253,54 @@ body {
     opacity: 0.0;
   }
 }
+
+
+
+
+
+
+@media (max-width: 320px) 
+ {
+   html {
+     display: grid;
+     grid-template-columns: 5% 90% 5%;
+   }
+
+   #body {
+     grid-column: 2/3;
+   }
+
+    .form-control {
+      font-size: 12px
+    }
+
+    #dropdown_button {
+      /* display: none; */
+      font-size: 10px
+
+    }
+
+    
+  }
+
+  @media (max-width: 475px) 
+  and (min-width: 320px)
+  { 
+      .form-control {
+        font-size: 16px
+      }
+  
+      #dropdown_button {
+        font-size: 10px
+      }
+  }
+
+
+  /* @media (max-width: 640px) 
+{
+  #dropdown_button {
+    font-size: 13px
+  }
+} */
+
+
