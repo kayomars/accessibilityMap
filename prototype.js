@@ -2,6 +2,7 @@
 var mapDragCorner;
 var mapDragMode = false;
 var mapDragMouse;
+var filtersShown = false;
 
 
 // Dummy data here
@@ -11,10 +12,28 @@ var allRamps = [[2100, 800], [1500, 900]];
 var allTraffic = [[1600, 890], [1710, 845], [1820, 800], [1930, 745]];
 
 
-// Used to show filters in a dropdown style
-function showFilters() {
+// Used to toggle filters in a dropdown style
+function toggleFilters() {
     document.getElementById("myDropdown").classList.toggle("show");
+    filtersShown = !filtersShown;
 }
+
+// Attaching click event listener to fade away click if needed
+document.addEventListener('mousedown', function (evt) {
+  if (filtersShown) {
+
+    if (evt.target.classList.contains("dropdown-content")) {
+      // Do nothing
+    } else if (evt.srcElement.offsetParent != null && evt.srcElement.offsetParent.classList.contains("dropdown-content")) {
+      // Do nothing
+    } else if (evt.target.classList.contains("dropbtn")) {
+      // Do nothing
+    } else {
+      toggleFilters();
+    }
+  }
+});
+
 
 // Attaching event listener to checkboxes in filter menu
 document.addEventListener('DOMContentLoaded', function () {
@@ -303,12 +322,10 @@ function elevatorSelectionChangeHandler() {
 
   if (elevators.checked) {
     for (var i = 0; i < holdAllElevs.length; i++) {
-      console.log(holdAllElevs);
       holdAllElevs[i].style.display = "flex";
     }
   } else {
     for (var i = 0; i < holdAllElevs.length; i++) {
-      console.log(holdAllElevs);
       holdAllElevs[i].style.display = "none";
     }
   }
