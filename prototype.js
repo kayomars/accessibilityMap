@@ -10,12 +10,13 @@ var zoomScale = 1;
 
 // Dummy data here
 var current_loc = [1800, 750];
-var allElevators = [[2100, 810, 6], [1590, 860, 7], [1830, 790, 10], [1790, 700, 13], [1790, 1120, 3], [1510, 780, 9], [1430, 570, 35], 
-                    [1590, 460, 37], [1690, 470, 39], [1860, 480, 24], [1860, 300, 36], [2020, 210, 32], [2050, 320, 32], [2210, 160, 32], 
+var allElevators = [[2100, 810, 6], [1590, 860, 7], [1830, 790, 10], [1790, 700, 13], [1790, 1120, 3], [1510, 780, 9], [1430, 570, 35],
+                    [1590, 460, 37], [1690, 470, 39], [1860, 480, 24], [1860, 300, 36], [2020, 210, 32], [2050, 320, 32], [2210, 160, 32],
                     [2050, 620, 8], [2110, 590, 16], [2240, 460, 56]];
 var allRamps = [[1510, 860, 7], [1770, 980, 3], [2010, 860, 4], [1920, 300, 36]];
+var allDoors = [[1510, 900, 7], [2050, 540, 16]];
 var allTraffic = [[1600, 890], [1700, 850], [1800, 810], [1900, 760], [2000, 710]];
-var buildings = new Map([["7", [1580, 900]], ["5", [1600, 1000]], ["3", [1750, 980]], ["10", [1820, 730]], ["13", [1700, 680]], ["32", [2100, 210]], 
+var buildings = new Map([["7", [1580, 900]], ["5", [1600, 1000]], ["3", [1750, 980]], ["10", [1820, 730]], ["13", [1700, 680]], ["32", [2100, 210]],
                  ["26", [2000, 450]], ["36", [1910, 250]], ["34", [1820, 350]], ["stata", [2100, 210]]]);
 
 
@@ -46,13 +47,14 @@ document.addEventListener('mousedown', function (evt) {
 document.addEventListener('DOMContentLoaded', function () {
   document.querySelector('#elevators').addEventListener('change', elevatorSelectionChangeHandler);
   document.querySelector('#ramps').addEventListener('change', rampSelectionChangeHandler);
-  document.querySelector('#sliding_doors').addEventListener('change', rampSelectionChangeHandler);
+  document.querySelector('#sliding_doors').addEventListener('change', doorSelectionChangeHandler);
   document.querySelector('#high_traffic').addEventListener('change', trafficSelectionChangeHandler);
   
   Util.one("#txtSearch").focus(); 
   centerMap(current_loc); 
   mapDragCorner = [Util.offset(Util.one("#map_image")).left, Util.offset(Util.one("#map_image")).top];
   newMapDragCorner = [Util.offset(Util.one("#map_image")).left, Util.offset(Util.one("#map_image")).top];
+
 
   // Adding location marker to the map
   var pulse_holder = Util.create("div", {"id": "holder"});
@@ -65,7 +67,7 @@ document.addEventListener('DOMContentLoaded', function () {
   // Adding all elevators to the map
   for (var ii = 0; ii < allElevators.length; ii += 1) {
     var cell = Util.create("div", {"id": "elevator-" + ii, "class": "elevator"});
-    Util.css(cell, {"height": "40px", "width" : "40px", "position": "absolute",
+    Util.css(cell, {"height": "50px", "width" : "50px", "position": "absolute",
                     "top": allElevators[ii][1] + "px", "left": allElevators[ii][0] + "px", "z-index" : 5});
 
     Util.one("#map_image").appendChild(cell);
@@ -74,8 +76,18 @@ document.addEventListener('DOMContentLoaded', function () {
   // Adding all ramps to the map with no visibility
   for (var ii = 0; ii < allRamps.length; ii += 1) {
     var cell = Util.create("div", {"id": "ramp-" + ii, "class": "ramp"});
-    Util.css(cell, {"height": "40px", "width" : "40px", "position": "absolute",
+    Util.css(cell, {"height": "50px", "width" : "50px", "position": "absolute",
                     "top": allRamps[ii][1] + "px", "left": allRamps[ii][0] + "px",
+                    "display": "none", "z-index" : 5});
+
+    Util.one("#map_image").appendChild(cell);
+  }
+
+  // Adding all automatic doors to the map with no visibility
+  for (var ii = 0; ii < allDoors.length; ii += 1) {
+    var cell = Util.create("div", {"id": "door-" + ii, "class": "door"});
+    Util.css(cell, {"height": "50px", "width" : "50px", "position": "absolute",
+                    "top": allDoors[ii][1] + "px", "left": allDoors[ii][0] + "px",
                     "display": "none", "z-index" : 5});
 
     Util.one("#map_image").appendChild(cell);
@@ -90,7 +102,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     Util.one("#map_image").appendChild(cell);
   }
-  
+
 
 
   // Attaching event listener to elevators
@@ -102,27 +114,24 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // Attaching event listener to zoom magnify_buttons
   document.getElementById('plus').addEventListener('click', function () {
-    console.log(document.getElementById('plus'));
+    var zoomLevel = getComputedStyle(document.body).getPropertyValue('--zoom-level');
+
+    var map = document.getElementById("map_image");
+    map.classList.add("zoom_in");
     var transformBy = getComputedStyle(document.body).getPropertyValue('--transform-by');
-    var newTransformBy = parseFloat(transformBy) + 0.5;
-    zoomScale = newTransformBy; 
-    document.documentElement.style.setProperty("--transform-by", newTransformBy);
-    // if (zoomLevel == 0) {
-    //
-    //   var imgHolder = document.getElementById('map_image');
-    //
-    //   if (elevators.checked && ramps.checked) {
-    //     imgHolder.style.backgroundImage = "url('images/home_elevators_ramps.png')";
-    //   } else if (!elevators.checked && ramps.checked) {
-    //     imgHolder.style.backgroundImage = "url('images/home_ramps.png')";
-    //   } else if (!elevators.checked && !ramps.checked) {
-    //     imgHolder.style.backgroundImage = "url('images/home_none.png')";
-    //   } else {
-    //     imgHolder.style.backgroundImage = "url('images/home_image.png')";
-    //   }
-    //
-    //   zoomLevel = 1;
-    // }
+
+
+    map.addEventListener('animationend', function() {
+      map.classList.remove("zoom_in");
+      // console.log(document.getElementById('plus'));
+
+      var newTransformBy = parseFloat(transformBy) + 0.25;
+      document.documentElement.style.setProperty("--transform-by", newTransformBy);
+      var newZoomLevel = parseFloat(zoomLevel) + 0.25;
+      document.documentElement.style.setProperty("--zoom-level", newZoomLevel);
+      console.log("newTransform", newTransformBy);
+    })
+
   });
 
   // Attaching event listener to unzoom magnify_buttons
@@ -384,6 +393,24 @@ function rampSelectionChangeHandler() {
   }
 }
 
+// Handles selection changes in the filters dropdown for sliding doors
+function doorSelectionChangeHandler() {
+
+  var holdAllDoors = document.getElementsByClassName('door');
+
+  if (sliding_doors.checked) {
+    for (var i = 0; i < holdAllDoors.length; i++) {
+
+      holdAllDoors[i].style.display = "flex";
+    }
+  } else {
+    for (var i = 0; i < holdAllDoors.length; i++) {
+
+      holdAllDoors[i].style.display = "none";
+    }
+  }
+}
+
 // Handles selection changes in the filters dropdown for traffic
 function trafficSelectionChangeHandler() {
 
@@ -394,7 +421,8 @@ function trafficSelectionChangeHandler() {
 
       holdAllTraffic[i].style.display = "flex";
     }
-  } else {
+  }
+  else {
     for (var i = 0; i < holdAllTraffic.length; i++) {
 
       holdAllTraffic[i].style.display = "none";
@@ -407,23 +435,22 @@ function searchMap(searchForm) {
                    .value.toLowerCase()
                    .replace("lobby", "")
                    .replace("building", "")
-                   .replace("room", "") 
+                   .replace("room", "")
                    .replace(/\s+/g, "");
-                   
+
   if (buildings.has(searchTerm)) {
-    centerMap(buildings.get(searchTerm)); 
+    centerMap(buildings.get(searchTerm));
   }
-  
-  return false; 
+
+  return false;
 }
 
 function centerMap(centerLocation) {
-  var imgHolder = Util.one("#image_holder"); 
-  var holderSize = [imgHolder.clientWidth, imgHolder.clientHeight]; 
-  console.log(holderSize); 
+  var imgHolder = Util.one("#image_holder");
+  var holderSize = [imgHolder.clientWidth, imgHolder.clientHeight];
+  console.log(holderSize);
   var img = Util.one("#map_image");
   Util.css(img, {"left" : -centerLocation[0] + holderSize[0]/2 + "px",
                  "top" : -centerLocation[1] + holderSize[1]/2 + "px",
                  "z-index" : 3});
 }
-
