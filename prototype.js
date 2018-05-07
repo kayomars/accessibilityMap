@@ -1,8 +1,11 @@
 
 var mapDragCorner;
+var newMapDragCorner; 
 var mapDragMode = false;
 var mapDragMouse;
 var filtersShown = false;
+
+var zoomScale = 1; 
 
 
 // Dummy data here
@@ -48,6 +51,8 @@ document.addEventListener('DOMContentLoaded', function () {
   
   Util.one("#txtSearch").focus(); 
   centerMap(current_loc); 
+  mapDragCorner = [Util.offset(Util.one("#map_image")).left, Util.offset(Util.one("#map_image")).top];
+  newMapDragCorner = [Util.offset(Util.one("#map_image")).left, Util.offset(Util.one("#map_image")).top];
 
   // Adding location marker to the map
   var pulse_holder = Util.create("div", {"id": "holder"});
@@ -100,6 +105,7 @@ document.addEventListener('DOMContentLoaded', function () {
     console.log(document.getElementById('plus'));
     var transformBy = getComputedStyle(document.body).getPropertyValue('--transform-by');
     var newTransformBy = parseFloat(transformBy) + 0.5;
+    zoomScale = newTransformBy; 
     document.documentElement.style.setProperty("--transform-by", newTransformBy);
     // if (zoomLevel == 0) {
     //
@@ -144,12 +150,15 @@ document.addEventListener('DOMContentLoaded', function () {
   document.getElementById('image_holder').addEventListener('mousedown', function (evt) {
 
     console.log("mouse down");
+    
     evt.preventDefault();
 
     var img = Util.one("#map_image");
-    mapDragCorner = [Util.offset(img).left, Util.offset(img).top];
+    
     mapDragMouse = [evt.clientX, evt.clientY];
     mapDragMode = true;
+    console.log(mapDragMouse); 
+    console.log(mapDragCorner); 
   });
 
   document.getElementById('image_holder').addEventListener('mousemove', function (evt) {
@@ -159,16 +168,32 @@ document.addEventListener('DOMContentLoaded', function () {
       var holder = Util.one("#image_holder");
       var holderHolder = Util.one(".map_container");
       var img = Util.one("#map_image");
-
+      console.log(Util.offset(img)); 
+      console.log(Util.offset(holderHolder)); 
+      
+      var imageCenter = [(Util.offset(img).left + img.clientWidth)/2, (Util.offset(img).rop + img.clientHeight)/2];
+      console.log(mapDragCorner); 
+      console.log([evt.clientX, evt.clientY]); 
+      console.log(mapDragMouse); 
+      
+      console.log(mapDragCorner[0] + (evt.clientX - mapDragMouse[0])
+                          - Util.offset(holderHolder).left); 
       // Change the image offset by the mouse position delta
-      Util.css(img, {"left" : mapDragCorner[0] + (evt.clientX - mapDragMouse[0])
-                          - Util.offset(holderHolder).left + "px",
-                     "top" : mapDragCorner[1] + (evt.clientY - mapDragMouse[1])
-                          - Util.offset(holderHolder).top + "px",
+      newMapDragCorner = [mapDragCorner[0] + (evt.clientX - mapDragMouse[0]) , 
+                          mapDragCorner[1] + (evt.clientY - mapDragMouse[1]) ]; 
+      Util.css(img, {"left" : newMapDragCorner[0] - Util.offset(holderHolder).left + "px",
+                     "top" : newMapDragCorner[1] - Util.offset(holderHolder).top+ "px",
                                "z-index" : 3});
       // img.style.left = mapDragCorner[0] + (evt.clientX - mapDragMouse[0]);
       // img.style.top = mapDragCorner[1];
+
+      console.log(Util.offset(img)); 
     }
+  });
+  
+  document.addEventListener('mouseup', function (evt) {
+    mapDragCorner = newMapDragCorner; 
+    mapDragMode = false;
   });
 
   // Register touch event handlers
@@ -178,9 +203,7 @@ document.addEventListener('DOMContentLoaded', function () {
   document.getElementById('image_holder').addEventListener('touchcancel', process_touchcancel, false);
   document.getElementById('image_holder').addEventListener('touchend', process_touchend, false);
 
-  document.addEventListener('mouseup', function (evt) {
-    mapDragMode = false;
-  });
+
 
 
 });
