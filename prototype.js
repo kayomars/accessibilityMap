@@ -9,8 +9,10 @@ var filtersShown = false;
 var current_loc = [1800, 750];
 var allElevators = [[2000, 1000], [1600, 1000], [1850, 780]];
 var allRamps = [[2100, 800], [1500, 900]];
-var allTraffic = [[1600, 890], [1710, 845], [1820, 800], [1930, 745]];
 
+
+
+var allTraffic = [[1600, 890], [1700, 850], [1800, 810], [1900, 760], [2000, 710]];
 
 
 // Used to show filters in a dropdown style
@@ -376,4 +378,3 @@ function trafficSelectionChangeHandler() {
     }
   }
 }
-
