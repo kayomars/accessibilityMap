@@ -1,3 +1,6 @@
+:root {
+  --transform-by: 1;
+}
 html {
   background-color: #F2F2F2;
 
@@ -127,6 +130,8 @@ body {
   background-image: url('images/campus_map.png');
   background-size: 100%;
   background-repeat: no-repeat;
+  
+  transform: scale(var(--transform-by));
 
   width: 3612px;
   height: 2052px;

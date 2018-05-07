@@ -11,6 +11,9 @@ var allRamps = [[2100, 800], [1500, 900]];
 var allTraffic = [[1600, 890], [1700, 850], [1800, 810], [1900, 760], [2000, 710]];
 
 
+
+
+
 // Used to show filters in a dropdown style
 function showFilters() {
     document.getElementById("myDropdown").classList.toggle("show");
@@ -69,7 +72,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // Attaching event listener to zoom magnify_buttons
   document.getElementById('plus').addEventListener('click', function () {
-
+    console.log(document.getElementById('plus'));
+    var transformBy = getComputedStyle(document.body).getPropertyValue('--transform-by');
+    var newTransformBy = parseFloat(transformBy) + 0.5;
+    document.documentElement.style.setProperty("--transform-by", newTransformBy);
     // if (zoomLevel == 0) {
     //
     //   var imgHolder = document.getElementById('map_image');

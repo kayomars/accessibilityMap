@@ -2,11 +2,11 @@
 <html>
   <head>
     <script type="text/javascript">
-      function resizeImg (img)
+      function resizeImg ()
       {
         var resize = 150; // resize amount in percentage
-        var origH  = 61;  // original image height
-        var origW  = 250; // original image width
+        var origH  = img.style.height;  // original image height
+        var origW  = img.style.width; // original image width
         var mouseX = event.x;
         var mouseY = event.y;
         var newH   = origH * (resize / 100);
@@ -25,17 +25,17 @@
     </script>
     <style type="text/css">
       #Container {
+        background-image: url('images/campus_map.png');
         position:relative;
-        width:250px;
-        height:61px;
-        overflow:hidden;
+        /* width:250px;
+        height:61px; */
+        /* overflow:hidden; */
       }
     </style>
   </head>
   <body>
     <div id="Container">
-      <img alt="Click to zoom" onclick="resizeImg(this)" 
-        src='images/campus_map.png' />
+      <img alt="Click to zoom" onclick="resizeImg()" />
     </div>
   </body>
 </html>
