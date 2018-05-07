@@ -60,7 +60,7 @@ document.addEventListener('DOMContentLoaded', function () {
   // Adding all elevators to the map
   for (var ii = 0; ii < allElevators.length; ii += 1) {
     var cell = Util.create("div", {"id": "elevator-" + ii, "class": "elevator"});
-    Util.css(cell, {"height": "40px", "width" : "40px", "position": "absolute",
+    Util.css(cell, {"height": "50px", "width" : "50px", "position": "absolute",
                     "top": allElevators[ii][1] + "px", "left": allElevators[ii][0] + "px", "z-index" : 5});
 
     Util.one("#map_image").appendChild(cell);
@@ -69,7 +69,7 @@ document.addEventListener('DOMContentLoaded', function () {
   // Adding all ramps to the map with no visibility
   for (var ii = 0; ii < allRamps.length; ii += 1) {
     var cell = Util.create("div", {"id": "ramp-" + ii, "class": "ramp"});
-    Util.css(cell, {"height": "40px", "width" : "40px", "position": "absolute",
+    Util.css(cell, {"height": "50px", "width" : "50px", "position": "absolute",
                     "top": allRamps[ii][1] + "px", "left": allRamps[ii][0] + "px",
                     "display": "none", "z-index" : 5});
 
@@ -97,6 +97,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // Attaching event listener to zoom magnify_buttons
   document.getElementById('plus').addEventListener('click', function () {
+
     console.log(document.getElementById('plus'));
     var transformBy = getComputedStyle(document.body).getPropertyValue('--transform-by');
     var newTransformBy = parseFloat(transformBy) + 0.5;
@@ -371,7 +372,8 @@ function trafficSelectionChangeHandler() {
 
       holdAllTraffic[i].style.display = "flex";
     }
-  } else {
+  }
+  else {
     for (var i = 0; i < holdAllTraffic.length; i++) {
 
       holdAllTraffic[i].style.display = "none";
