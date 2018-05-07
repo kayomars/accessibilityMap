@@ -12,16 +12,13 @@ var allRamps = [[2100, 800], [1500, 900]];
 var allTraffic = [[1600, 890], [1710, 845], [1820, 800], [1930, 745]];
 
 
-<<<<<<< HEAD
-
-
 
 // Used to show filters in a dropdown style
 function showFilters() {
-=======
+
+}
 // Used to toggle filters in a dropdown style
 function toggleFilters() {
->>>>>>> 34d19e64b171ad27327f76f11a6ea366d87f1511
     document.getElementById("myDropdown").classList.toggle("show");
     filtersShown = !filtersShown;
 }
@@ -94,8 +91,11 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 
 
+  console.log(document.getElementById('plus'));
+
   // Attaching event listener to zoom magnify_buttons
   document.getElementById('plus').addEventListener('click', function () {
+
     console.log(document.getElementById('plus'));
     var transformBy = getComputedStyle(document.body).getPropertyValue('--transform-by');
     var newTransformBy = parseFloat(transformBy) + 0.5;
@@ -370,10 +370,12 @@ function trafficSelectionChangeHandler() {
 
       holdAllTraffic[i].style.display = "flex";
     }
-  } else {
+  } 
+  else {
     for (var i = 0; i < holdAllTraffic.length; i++) {
 
       holdAllTraffic[i].style.display = "none";
     }
   }
 }
+
