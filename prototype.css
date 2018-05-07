@@ -1,5 +1,6 @@
 :root {
   --transform-by: 1;
+  --zoom-level: 1.25
 }
 html {
   background-color: #F2F2F2;
@@ -270,7 +271,21 @@ body {
   }
 }
 
+.zoom_in {
+  animation-name: zoomIn;
+  animation-duration: 1s;
+  animation-iteration-count: 1;
+}
 
+@keyframes zoomIn {
+  0% {
+    
+  }
+  100% {
+    transform: scale(var(--zoom-level), var(--zoom-level));
+    
+  }
+}
 
 
 
@@ -312,9 +327,3 @@ body {
   }
 
 
-  /* @media (max-width: 640px)
-{
-  #dropdown_button {
-    font-size: 13px
-  }
-} */
