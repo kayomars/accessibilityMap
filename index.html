@@ -20,13 +20,13 @@
 
         <div class="header">
 
-            <form action= "" method="GET" id = "searchBar">
+            <form method="GET" id = "searchBar">
 
                 <div class="input-group">
-                  <input type="text" class="form-control" placeholder="Room/Building number" id="txtSearch"/>
+                  <input type="text" class="form-control" placeholder="Room/Building number" id="txtSearch" name="search-text" />
 
                   <div class="input-group-btn">
-                    <button class="btn btn-primary" type="submit">
+                    <button class="btn btn-primary" type="submit" onclick="searchMap(this.form);return false;">
                       <span class="glyphicon glyphicon-search"></span>
                     </button>
                   </div>

@@ -91,8 +91,6 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 
 
-  console.log(document.getElementById('plus'));
-
   // Attaching event listener to zoom magnify_buttons
   document.getElementById('plus').addEventListener('click', function () {
 
