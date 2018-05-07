@@ -5,13 +5,14 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
         <title>MIT Accessibility Map</title>
+        
 
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"/>
         <link rel="stylesheet" href="prototype.css">
 
-        <script src="util.js"></script>
-        <script src="prototype.js"></script>
+        
+        
 
     </head>
 
@@ -36,16 +37,17 @@
 
             <div id = "filters">
                 <div class="dropdown">
-                  <button onclick="showFilters()" class="dropbtn" id = "dropdown_button">
+
+                  <button onclick="toggleFilters()" class="dropbtn" id = "dropdown_button">
                     <span class="glyphicon glyphicon-menu-hamburger"></span>
-                    All Filters
+                    Filters
                   </button>
 
                   <div id="myDropdown" class="dropdown-content">
-                    <a> <input type="checkbox" id = "elevators" checked> &nbsp;Elevators </a>
-                    <a> <input type="checkbox" id = "ramps"> &nbsp;Ramps </a>
-                    <a> <input type="checkbox" id = "sliding_doors"> &nbsp;Sliding Doors </a>
-                    <a> <input type="checkbox" id = "high_traffic"> &nbsp;High Traffic </a>
+                    <label> <a> <input type="checkbox" id = "elevators" checked> &nbsp;Elevators </a> </label>
+                    <label> <a> <input type="checkbox" id = "ramps"> &nbsp;Ramps </a> </label>
+                    <label> <a> <input type="checkbox" id = "sliding_doors"> &nbsp;Sliding Doors </a> </label>
+                    <label> <a> <input type="checkbox" id = "high_traffic"> &nbsp;High Traffic </a> </label>
                   </div>
                 </div>
 
@@ -53,7 +55,7 @@
 
         </div>
 
-        <div class = "map_container">
+        <div id = "map_container" class = "map_container">
 
           <div id = "image_holder">
             <div id = "map_image">
@@ -68,7 +70,8 @@
 
         </div>
 
-
+        <script src="prototype.js"></script>
+        <script src="util.js"></script>
     </body>
 
 </html>
