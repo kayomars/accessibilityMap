@@ -11,6 +11,7 @@ var allElevators = [[2100, 810, 6], [1590, 860, 7], [1830, 790, 10], [1790, 700,
                     [1590, 460, 37], [1690, 470, 39], [1860, 480, 24], [1860, 300, 36], [2020, 210, 32], [2050, 320, 32], [2210, 160, 32],
                     [2050, 620, 8], [2110, 590, 16], [2240, 460, 56]];
 var allRamps = [[1510, 860, 7], [1770, 980, 3], [2010, 860, 4], [1920, 300, 36]];
+var allDoors = [[1510, 900, 7], [2050, 540, 16]];
 var allTraffic = [[1600, 890], [1700, 850], [1800, 810], [1900, 760], [2000, 710]];
 var buildings = new Map([["7", [1580, 900]], ["5", [1600, 1000]], ["3", [1750, 980]], ["10", [1820, 730]], ["13", [1700, 680]], ["32", [2100, 210]],
                  ["26", [2000, 450]], ["36", [1910, 250]], ["34", [1820, 350]], ["stata", [2100, 210]]]);
@@ -43,7 +44,7 @@ document.addEventListener('mousedown', function (evt) {
 document.addEventListener('DOMContentLoaded', function () {
   document.querySelector('#elevators').addEventListener('change', elevatorSelectionChangeHandler);
   document.querySelector('#ramps').addEventListener('change', rampSelectionChangeHandler);
-  document.querySelector('#sliding_doors').addEventListener('change', rampSelectionChangeHandler);
+  document.querySelector('#sliding_doors').addEventListener('change', doorSelectionChangeHandler);
   document.querySelector('#high_traffic').addEventListener('change', trafficSelectionChangeHandler);
 
   Util.one("#txtSearch").focus();
@@ -76,6 +77,16 @@ document.addEventListener('DOMContentLoaded', function () {
     Util.one("#map_image").appendChild(cell);
   }
 
+  // Adding all automatic doors to the map with no visibility
+  for (var ii = 0; ii < allDoors.length; ii += 1) {
+    var cell = Util.create("div", {"id": "door-" + ii, "class": "door"});
+    Util.css(cell, {"height": "50px", "width" : "50px", "position": "absolute",
+                    "top": allDoors[ii][1] + "px", "left": allDoors[ii][0] + "px",
+                    "display": "none", "z-index" : 5});
+
+    Util.one("#map_image").appendChild(cell);
+  }
+
   // Adding all high traffic markers to the map with no visibility
   for (var ii = 0; ii < allTraffic.length; ii += 1) {
     var cell = Util.create("div", {"id": "traffic-" + ii, "class": "high_traffic"});
@@ -98,23 +109,23 @@ document.addEventListener('DOMContentLoaded', function () {
   // Attaching event listener to zoom magnify_buttons
   document.getElementById('plus').addEventListener('click', function () {
     var zoomLevel = getComputedStyle(document.body).getPropertyValue('--zoom-level');
-    
+
     var map = document.getElementById("map_image");
     map.classList.add("zoom_in");
     var transformBy = getComputedStyle(document.body).getPropertyValue('--transform-by');
 
-    
+
     map.addEventListener('animationend', function() {
       map.classList.remove("zoom_in");
       // console.log(document.getElementById('plus'));
-      
+
       var newTransformBy = parseFloat(transformBy) + 0.25;
       document.documentElement.style.setProperty("--transform-by", newTransformBy);
       var newZoomLevel = parseFloat(zoomLevel) + 0.25;
       document.documentElement.style.setProperty("--zoom-level", newZoomLevel);
       console.log("newTransform", newTransformBy);
     })
-  
+
   });
 
   // Attaching event listener to unzoom magnify_buttons
@@ -355,6 +366,24 @@ function rampSelectionChangeHandler() {
     for (var i = 0; i < holdAllRamps.length; i++) {
 
       holdAllRamps[i].style.display = "none";
+    }
+  }
+}
+
+// Handles selection changes in the filters dropdown for sliding doors
+function doorSelectionChangeHandler() {
+
+  var holdAllDoors = document.getElementsByClassName('door');
+
+  if (sliding_doors.checked) {
+    for (var i = 0; i < holdAllDoors.length; i++) {
+
+      holdAllDoors[i].style.display = "flex";
+    }
+  } else {
+    for (var i = 0; i < holdAllDoors.length; i++) {
+
+      holdAllDoors[i].style.display = "none";
     }
   }
 }
