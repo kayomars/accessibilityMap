@@ -6,10 +6,13 @@ var mapDragMouse;
 
 // Dummy data here
 var current_loc = [1800, 750];
-var allElevators = [[2000, 1000], [1600, 1000], [1850, 780]];
-var allRamps = [[2100, 800], [1500, 900]];
+var allElevators = [[2100, 810, 6], [1590, 860, 7], [1830, 790, 10], [1790, 700, 13], [1790, 1120, 3], [1510, 780, 9], [1430, 570, 35], 
+                    [1590, 460, 37], [1690, 470, 39], [1860, 480, 24], [1860, 300, 36], [2020, 210, 32], [2050, 320, 32], [2210, 160, 32], 
+                    [2050, 620, 8], [2110, 590, 16], [2240, 460, 56]];
+var allRamps = [[1510, 860, 7], [1770, 980, 3], [2010, 860, 4], [1920, 300, 36]];
 var allTraffic = [[1600, 890], [1700, 850], [1800, 810], [1900, 760], [2000, 710]];
-
+var buildings = new Map([["7", [1580, 900]], ["5", [1600, 1000]], ["3", [1750, 980]], ["10", [1820, 730]], ["13", [1700, 680]], ["32", [2100, 210]], 
+                 ["26", [2000, 450]], ["36", [1910, 250]], ["34", [1820, 350]], ["stata", [2100, 210]]]);
 
 // Used to show filters in a dropdown style
 function showFilters() {
@@ -22,6 +25,9 @@ document.addEventListener('DOMContentLoaded', function () {
   document.querySelector('#ramps').addEventListener('change', rampSelectionChangeHandler);
   document.querySelector('#sliding_doors').addEventListener('change', rampSelectionChangeHandler);
   document.querySelector('#high_traffic').addEventListener('change', trafficSelectionChangeHandler);
+  
+  Util.one("#txtSearch").focus(); 
+  centerMap(current_loc); 
 
   // Adding location marker to the map
   var pulse_holder = Util.create("div", {"id": "holder"});
@@ -34,7 +40,7 @@ document.addEventListener('DOMContentLoaded', function () {
   // Adding all elevators to the map
   for (var ii = 0; ii < allElevators.length; ii += 1) {
     var cell = Util.create("div", {"id": "elevator-" + ii, "class": "elevator"});
-    Util.css(cell, {"height": "50px", "width" : "50px", "position": "absolute",
+    Util.css(cell, {"height": "40px", "width" : "40px", "position": "absolute",
                     "top": allElevators[ii][1] + "px", "left": allElevators[ii][0] + "px", "z-index" : 5});
 
     Util.one("#map_image").appendChild(cell);
@@ -43,7 +49,7 @@ document.addEventListener('DOMContentLoaded', function () {
   // Adding all ramps to the map with no visibility
   for (var ii = 0; ii < allRamps.length; ii += 1) {
     var cell = Util.create("div", {"id": "ramp-" + ii, "class": "ramp"});
-    Util.css(cell, {"height": "50px", "width" : "50px", "position": "absolute",
+    Util.css(cell, {"height": "40px", "width" : "40px", "position": "absolute",
                     "top": allRamps[ii][1] + "px", "left": allRamps[ii][0] + "px",
                     "display": "none", "z-index" : 5});
 
@@ -59,6 +65,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
     Util.one("#map_image").appendChild(cell);
   }
+  
+
 
   // Attaching event listener to elevators
   document.getElementById('elevator-1').addEventListener('click', function () {
@@ -349,3 +357,29 @@ function trafficSelectionChangeHandler() {
     }
   }
 }
+
+function searchMap(searchForm) {
+  var searchTerm = searchForm.elements[0]
+                   .value.toLowerCase()
+                   .replace("lobby", "")
+                   .replace("building", "")
+                   .replace("room", "") 
+                   .replace(/\s+/g, "");
+                   
+  if (buildings.has(searchTerm)) {
+    centerMap(buildings.get(searchTerm)); 
+  }
+  
+  return false; 
+}
+
+function centerMap(centerLocation) {
+  var imgHolder = Util.one("#image_holder"); 
+  var holderSize = [imgHolder.clientWidth, imgHolder.clientHeight]; 
+  console.log(holderSize); 
+  var img = Util.one("#map_image");
+  Util.css(img, {"left" : -centerLocation[0] + holderSize[0]/2 + "px",
+                 "top" : -centerLocation[1] + holderSize[1]/2 + "px",
+                 "z-index" : 3});
+}
+
