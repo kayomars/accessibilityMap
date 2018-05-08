@@ -1,6 +1,8 @@
 :root {
   --transform-by: 1;
   --zoom-level: 1.25
+  --initial: 1;
+  --final: 1;
 }
 html {
   background-color: #F2F2F2;
@@ -166,6 +168,10 @@ body {
   border-bottom: none;
 }
 
+#plus:hover {
+  background-color: silver;
+}
+
 #minus {
   background-color: #F2F2F2;
 
@@ -173,9 +179,12 @@ body {
   border: 1px solid grey;
 }
 
-.magnify_buttons: hover {
-  color: red;
+#minus:hover {
+  background-color: silver;
 }
+/* .magnify_buttons:hover {
+  color: red;
+} */
 
 #map_image div.elevator {
 
@@ -279,14 +288,28 @@ body {
 
 @keyframes zoomIn {
   0% {
-    
+    transform: scale(var(--initial), var(--initial));
   }
   100% {
-    transform: scale(var(--zoom-level), var(--zoom-level));
+    transform: scale(var(--final), var(--final));
     
   }
 }
+.zoom_out {
+  animation-name: zoomout;
+  animation-duration: 1s;
+  animation-iteration-count: 1;
+}
 
+@keyframes zoomout {
+  0% {
+    transform: scale(var(--initial), var(--initial));
+  }
+  100% {
+    transform: scale(var(--final), var(--final));
+    
+  }
+}
 
 
 

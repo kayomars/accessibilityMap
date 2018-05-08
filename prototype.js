@@ -102,39 +102,32 @@ document.addEventListener('DOMContentLoaded', function () {
     var map = document.getElementById("map_image");
     map.classList.add("zoom_in");
     var transformBy = getComputedStyle(document.body).getPropertyValue('--transform-by');
-
+    var newTransformBy = parseFloat(transformBy) + 0.25;
+    document.documentElement.style.setProperty("--initial", transformBy);
+    document.documentElement.style.setProperty("--final", newTransformBy);
     
     map.addEventListener('animationend', function() {
       map.classList.remove("zoom_in");
-      // console.log(document.getElementById('plus'));
-      
-      var newTransformBy = parseFloat(transformBy) + 0.25;
       document.documentElement.style.setProperty("--transform-by", newTransformBy);
-      var newZoomLevel = parseFloat(zoomLevel) + 0.25;
-      document.documentElement.style.setProperty("--zoom-level", newZoomLevel);
-      console.log("newTransform", newTransformBy);
-    })
+    });
   
   });
 
   // Attaching event listener to unzoom magnify_buttons
   document.getElementById('minus').addEventListener('click', function () {
+    var zoomLevel = getComputedStyle(document.body).getPropertyValue('--zoom-level');
+    var map = document.getElementById("map_image");
+    var transformBy = getComputedStyle(document.body).getPropertyValue('--transform-by')
+    var newTransformBy = parseFloat(transformBy) - 0.25;
+    document.documentElement.style.setProperty("--initial", transformBy);
+    document.documentElement.style.setProperty("--final", newTransformBy);
+    map.classList.add("zoom_out");
 
-    // if (zoomLevel == 1) {
-    //
-    //   var imgHolder = document.getElementById('map_image');
-    //
-    //   if (elevators.checked && ramps.checked) {
-    //     imgHolder.style.backgroundImage = "url('images/zoomout_elevators_ramps.png')";
-    //   } else if (!elevators.checked && ramps.checked) {
-    //     imgHolder.style.backgroundImage = "url('images/zoomout_ramps.png')";
-    //   } else if (!elevators.checked && !ramps.checked) {
-    //     imgHolder.style.backgroundImage = "url('images/zoomout_none.png')";
-    //   } else {
-    //     imgHolder.style.backgroundImage = "url('images/home_zoomout.png')";
-    //   }
-    //   zoomLevel = 0;
-  //}
+    
+    map.addEventListener('animationend', function() {
+      map.classList.remove("zoom_out");
+      document.documentElement.style.setProperty("--transform-by", newTransformBy);
+    });
   });
 
 
