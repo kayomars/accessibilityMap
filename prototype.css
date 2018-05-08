@@ -137,7 +137,7 @@ body {
   position: absolute;
   background-position: center center;
 
-  background-image: url('images/campus_map.png');
+  background-image: url('images/campus_map.jpg');
   background-size: 100%;
   background-repeat: no-repeat;
 
@@ -188,7 +188,7 @@ body {
 
 #map_image div.elevator {
 
-  background-image: url( 'images/elevator_icon1.png' );
+  background-image: url( 'images/elevator_icon1.jpg' );
   background-size: cover;
   display: flex;
 
