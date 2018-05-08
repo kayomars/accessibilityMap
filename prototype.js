@@ -132,7 +132,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // Attaching event listener to unzoom magnify_buttons
   document.getElementById('minus').addEventListener('click', function () {
-    var zoomLevel = getComputedStyle(document.body).getPropertyValue('--zoom-level');
     var map = document.getElementById("map_image");
     var transformBy = getComputedStyle(document.body).getPropertyValue('--transform-by')
     var newTransformBy = parseFloat(transformBy) - 0.25;

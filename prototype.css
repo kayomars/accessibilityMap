@@ -1,6 +1,5 @@
 :root {
   --transform-by: 1;
-  --zoom-level: 1.25
   --initial: 1;
   --final: 1;
 }
@@ -22,6 +21,10 @@ body {
     display: grid;
     grid-template-rows: 5% 10% 80%;
     grid-row-gap: 10px;
+}
+
+.heading {
+  margin-top: 0;
 }
 
 .title-holder {
