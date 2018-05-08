@@ -1,11 +1,11 @@
 
 var mapDragCorner;
-var newMapDragCorner; 
+var newMapDragCorner;
 var mapDragMode = false;
 var mapDragMouse;
 var filtersShown = false;
 
-var zoomScale = 1; 
+var zoomScale = 1;
 
 
 // Dummy data here
@@ -49,9 +49,9 @@ document.addEventListener('DOMContentLoaded', function () {
   document.querySelector('#ramps').addEventListener('change', rampSelectionChangeHandler);
   document.querySelector('#sliding_doors').addEventListener('change', doorSelectionChangeHandler);
   document.querySelector('#high_traffic').addEventListener('change', trafficSelectionChangeHandler);
-  
-  Util.one("#txtSearch").focus(); 
-  centerMap(current_loc); 
+
+  Util.one("#txtSearch").focus();
+  centerMap(current_loc);
   mapDragCorner = [Util.offset(Util.one("#map_image")).left, Util.offset(Util.one("#map_image")).top];
   newMapDragCorner = [Util.offset(Util.one("#map_image")).left, Util.offset(Util.one("#map_image")).top];
 
@@ -111,6 +111,11 @@ document.addEventListener('DOMContentLoaded', function () {
     console.log("test");
   });
 
+  // Attaching event listener to center_loc button
+  document.getElementById('center_loc').addEventListener('click', function () {
+    centerMap(current_loc);
+  });
+
 
   // Attaching event listener to zoom magnify_buttons
   document.getElementById('plus').addEventListener('click', function () {
@@ -122,12 +127,12 @@ document.addEventListener('DOMContentLoaded', function () {
     var newTransformBy = parseFloat(transformBy) + 0.25;
     document.documentElement.style.setProperty("--initial", transformBy);
     document.documentElement.style.setProperty("--final", newTransformBy);
-    
+
     map.addEventListener('animationend', function() {
       map.classList.remove("zoom_in");
       document.documentElement.style.setProperty("--transform-by", newTransformBy);
     });
-  
+
   });
 
   // Attaching event listener to unzoom magnify_buttons
@@ -140,7 +145,7 @@ document.addEventListener('DOMContentLoaded', function () {
     document.documentElement.style.setProperty("--final", newTransformBy);
     map.classList.add("zoom_out");
 
-    
+
     map.addEventListener('animationend', function() {
       map.classList.remove("zoom_out");
       document.documentElement.style.setProperty("--transform-by", newTransformBy);
@@ -152,15 +157,15 @@ document.addEventListener('DOMContentLoaded', function () {
   document.getElementById('image_holder').addEventListener('mousedown', function (evt) {
 
     console.log("mouse down");
-    
+
     evt.preventDefault();
 
     var img = Util.one("#map_image");
-    
+
     mapDragMouse = [evt.clientX, evt.clientY];
     mapDragMode = true;
-    console.log(mapDragMouse); 
-    console.log(mapDragCorner); 
+    console.log(mapDragMouse);
+    console.log(mapDragCorner);
   });
 
   document.getElementById('image_holder').addEventListener('mousemove', function (evt) {
@@ -170,31 +175,31 @@ document.addEventListener('DOMContentLoaded', function () {
       var holder = Util.one("#image_holder");
       var holderHolder = Util.one(".map_container");
       var img = Util.one("#map_image");
-      console.log(Util.offset(img)); 
-      console.log(Util.offset(holderHolder)); 
-      
+      console.log(Util.offset(img));
+      console.log(Util.offset(holderHolder));
+
       var imageCenter = [(Util.offset(img).left + img.clientWidth)/2, (Util.offset(img).rop + img.clientHeight)/2];
-      console.log(mapDragCorner); 
-      console.log([evt.clientX, evt.clientY]); 
-      console.log(mapDragMouse); 
-      
+      console.log(mapDragCorner);
+      console.log([evt.clientX, evt.clientY]);
+      console.log(mapDragMouse);
+
       console.log(mapDragCorner[0] + (evt.clientX - mapDragMouse[0])
-                          - Util.offset(holderHolder).left); 
+                          - Util.offset(holderHolder).left);
       // Change the image offset by the mouse position delta
-      newMapDragCorner = [mapDragCorner[0] + (evt.clientX - mapDragMouse[0]) , 
-                          mapDragCorner[1] + (evt.clientY - mapDragMouse[1]) ]; 
+      newMapDragCorner = [mapDragCorner[0] + (evt.clientX - mapDragMouse[0]) ,
+                          mapDragCorner[1] + (evt.clientY - mapDragMouse[1]) ];
       Util.css(img, {"left" : newMapDragCorner[0] - Util.offset(holderHolder).left + "px",
                      "top" : newMapDragCorner[1] - Util.offset(holderHolder).top+ "px",
                                "z-index" : 3});
       // img.style.left = mapDragCorner[0] + (evt.clientX - mapDragMouse[0]);
       // img.style.top = mapDragCorner[1];
 
-      console.log(Util.offset(img)); 
+      console.log(Util.offset(img));
     }
   });
-  
+
   document.addEventListener('mouseup', function (evt) {
-    mapDragCorner = newMapDragCorner; 
+    mapDragCorner = newMapDragCorner;
     mapDragMode = false;
   });
 

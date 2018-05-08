@@ -157,8 +157,7 @@ body {
   font-size: 30px;
 }
 
-.magnify_buttons {
-
+.map_buttons {
   position: absolute;
   display: flex;
   flex-flow: column;
@@ -166,7 +165,9 @@ body {
   padding-right: 10px;
   padding-bottom: 10px;
   z-index: 2;
+
 }
+
 
 #plus {
 
@@ -312,7 +313,7 @@ body {
   }
   100% {
     transform: scale(var(--final), var(--final));
-    
+
   }
 }
 .zoom_out {
@@ -327,7 +328,7 @@ body {
   }
   100% {
     transform: scale(var(--final), var(--final));
-    
+
   }
 }
 
