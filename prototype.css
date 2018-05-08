@@ -11,20 +11,28 @@ html {
   margin-bottom: 2%;
 
   display: grid;
-  grid-template-rows: 20% 80%;
-  grid-template-columns: 10% 80% 10%;
+  grid-template-columns: 7% 86% 7%;
 
 }
+
 
 body {
     background-color: inherit;
     grid-column: 2/3;
     display: grid;
-    grid-template-rows: 10% 90%;
-    grid-row-gap: 20px;
+    grid-template-rows: 5% 10% 80%;
+    grid-row-gap: 10px;
+}
+
+.title-holder {
+    grid-row: 1;
+
+    text-align: center;
 }
 
 .header {
+    grid-row: 2;
+
     background-color: inherit;
     display: grid;
 
@@ -35,7 +43,8 @@ body {
 }
 
 .map_container {
-    grid-row: 2/2;
+    grid-row: 3;
+
     position: relative;
     cursor: -webkit-grab;
     cursor: grab;
@@ -130,10 +139,10 @@ body {
   position: absolute;
   background-position: center center;
 
-  background-image: url('images/campus_map.png');
+  background-image: url('images/campus_map.jpg');
   background-size: 100%;
   background-repeat: no-repeat;
-  
+
   transform: scale(var(--transform-by));
 
   width: 3612px;
@@ -188,7 +197,7 @@ body {
 
 #map_image div.elevator {
 
-  background-image: url( 'images/elevator_icon1.png' );
+  background-image: url( 'images/elevator_icon1.jpg' );
   background-size: cover;
   display: flex;
 
@@ -200,6 +209,17 @@ body {
 #map_image div.ramp {
 
   background-image: url( 'images/ramp_icon1.png' );
+  background-size: cover;
+  display: flex;
+
+  border-radius: 0.2em;
+  border: 1px solid grey;
+  z-index: 5;
+}
+
+#map_image div.door {
+
+  background-image: url( 'images/door_icon1.png' );
   background-size: cover;
   display: flex;
 
@@ -348,5 +368,3 @@ body {
         font-size: 10px
       }
   }
-
-

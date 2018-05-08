@@ -1,8 +1,11 @@
 
 var mapDragCorner;
+var newMapDragCorner; 
 var mapDragMode = false;
 var mapDragMouse;
 var filtersShown = false;
+
+var zoomScale = 1; 
 
 
 // Dummy data here
@@ -11,6 +14,7 @@ var allElevators = [[2100, 810, 6], [1590, 860, 7], [1830, 790, 10], [1790, 700,
                     [1590, 460, 37], [1690, 470, 39], [1860, 480, 24], [1860, 300, 36], [2020, 210, 32], [2050, 320, 32], [2210, 160, 32],
                     [2050, 620, 8], [2110, 590, 16], [2240, 460, 56]];
 var allRamps = [[1510, 860, 7], [1770, 980, 3], [2010, 860, 4], [1920, 300, 36]];
+var allDoors = [[1510, 900, 7], [2050, 540, 16]];
 var allTraffic = [[1600, 890], [1700, 850], [1800, 810], [1900, 760], [2000, 710]];
 var buildings = new Map([["7", [1580, 900]], ["5", [1600, 1000]], ["3", [1750, 980]], ["10", [1820, 730]], ["13", [1700, 680]], ["32", [2100, 210]],
                  ["26", [2000, 450]], ["36", [1910, 250]], ["34", [1820, 350]], ["stata", [2100, 210]]]);
@@ -43,11 +47,14 @@ document.addEventListener('mousedown', function (evt) {
 document.addEventListener('DOMContentLoaded', function () {
   document.querySelector('#elevators').addEventListener('change', elevatorSelectionChangeHandler);
   document.querySelector('#ramps').addEventListener('change', rampSelectionChangeHandler);
-  document.querySelector('#sliding_doors').addEventListener('change', rampSelectionChangeHandler);
+  document.querySelector('#sliding_doors').addEventListener('change', doorSelectionChangeHandler);
   document.querySelector('#high_traffic').addEventListener('change', trafficSelectionChangeHandler);
+  
+  Util.one("#txtSearch").focus(); 
+  centerMap(current_loc); 
+  mapDragCorner = [Util.offset(Util.one("#map_image")).left, Util.offset(Util.one("#map_image")).top];
+  newMapDragCorner = [Util.offset(Util.one("#map_image")).left, Util.offset(Util.one("#map_image")).top];
 
-  Util.one("#txtSearch").focus();
-  centerMap(current_loc);
 
   // Adding location marker to the map
   var pulse_holder = Util.create("div", {"id": "holder"});
@@ -76,6 +83,16 @@ document.addEventListener('DOMContentLoaded', function () {
     Util.one("#map_image").appendChild(cell);
   }
 
+  // Adding all automatic doors to the map with no visibility
+  for (var ii = 0; ii < allDoors.length; ii += 1) {
+    var cell = Util.create("div", {"id": "door-" + ii, "class": "door"});
+    Util.css(cell, {"height": "50px", "width" : "50px", "position": "absolute",
+                    "top": allDoors[ii][1] + "px", "left": allDoors[ii][0] + "px",
+                    "display": "none", "z-index" : 5});
+
+    Util.one("#map_image").appendChild(cell);
+  }
+
   // Adding all high traffic markers to the map with no visibility
   for (var ii = 0; ii < allTraffic.length; ii += 1) {
     var cell = Util.create("div", {"id": "traffic-" + ii, "class": "high_traffic"});
@@ -98,7 +115,7 @@ document.addEventListener('DOMContentLoaded', function () {
   // Attaching event listener to zoom magnify_buttons
   document.getElementById('plus').addEventListener('click', function () {
     var zoomLevel = getComputedStyle(document.body).getPropertyValue('--zoom-level');
-    
+
     var map = document.getElementById("map_image");
     map.classList.add("zoom_in");
     var transformBy = getComputedStyle(document.body).getPropertyValue('--transform-by');
@@ -135,12 +152,15 @@ document.addEventListener('DOMContentLoaded', function () {
   document.getElementById('image_holder').addEventListener('mousedown', function (evt) {
 
     console.log("mouse down");
+    
     evt.preventDefault();
 
     var img = Util.one("#map_image");
-    mapDragCorner = [Util.offset(img).left, Util.offset(img).top];
+    
     mapDragMouse = [evt.clientX, evt.clientY];
     mapDragMode = true;
+    console.log(mapDragMouse); 
+    console.log(mapDragCorner); 
   });
 
   document.getElementById('image_holder').addEventListener('mousemove', function (evt) {
@@ -150,16 +170,32 @@ document.addEventListener('DOMContentLoaded', function () {
       var holder = Util.one("#image_holder");
       var holderHolder = Util.one(".map_container");
       var img = Util.one("#map_image");
-
+      console.log(Util.offset(img)); 
+      console.log(Util.offset(holderHolder)); 
+      
+      var imageCenter = [(Util.offset(img).left + img.clientWidth)/2, (Util.offset(img).rop + img.clientHeight)/2];
+      console.log(mapDragCorner); 
+      console.log([evt.clientX, evt.clientY]); 
+      console.log(mapDragMouse); 
+      
+      console.log(mapDragCorner[0] + (evt.clientX - mapDragMouse[0])
+                          - Util.offset(holderHolder).left); 
       // Change the image offset by the mouse position delta
-      Util.css(img, {"left" : mapDragCorner[0] + (evt.clientX - mapDragMouse[0])
-                          - Util.offset(holderHolder).left + "px",
-                     "top" : mapDragCorner[1] + (evt.clientY - mapDragMouse[1])
-                          - Util.offset(holderHolder).top + "px",
+      newMapDragCorner = [mapDragCorner[0] + (evt.clientX - mapDragMouse[0]) , 
+                          mapDragCorner[1] + (evt.clientY - mapDragMouse[1]) ]; 
+      Util.css(img, {"left" : newMapDragCorner[0] - Util.offset(holderHolder).left + "px",
+                     "top" : newMapDragCorner[1] - Util.offset(holderHolder).top+ "px",
                                "z-index" : 3});
       // img.style.left = mapDragCorner[0] + (evt.clientX - mapDragMouse[0]);
       // img.style.top = mapDragCorner[1];
+
+      console.log(Util.offset(img)); 
     }
+  });
+  
+  document.addEventListener('mouseup', function (evt) {
+    mapDragCorner = newMapDragCorner; 
+    mapDragMode = false;
   });
 
   // Register touch event handlers
@@ -169,9 +205,7 @@ document.addEventListener('DOMContentLoaded', function () {
   document.getElementById('image_holder').addEventListener('touchcancel', process_touchcancel, false);
   document.getElementById('image_holder').addEventListener('touchend', process_touchend, false);
 
-  document.addEventListener('mouseup', function (evt) {
-    mapDragMode = false;
-  });
+
 
 
 });
@@ -348,6 +382,24 @@ function rampSelectionChangeHandler() {
     for (var i = 0; i < holdAllRamps.length; i++) {
 
       holdAllRamps[i].style.display = "none";
+    }
+  }
+}
+
+// Handles selection changes in the filters dropdown for sliding doors
+function doorSelectionChangeHandler() {
+
+  var holdAllDoors = document.getElementsByClassName('door');
+
+  if (sliding_doors.checked) {
+    for (var i = 0; i < holdAllDoors.length; i++) {
+
+      holdAllDoors[i].style.display = "flex";
+    }
+  } else {
+    for (var i = 0; i < holdAllDoors.length; i++) {
+
+      holdAllDoors[i].style.display = "none";
     }
   }
 }
