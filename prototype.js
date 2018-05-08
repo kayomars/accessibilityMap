@@ -450,4 +450,6 @@ function centerMap(centerLocation) {
   Util.css(img, {"left" : -centerLocation[0] + holderSize[0]/2 + "px",
                  "top" : -centerLocation[1] + holderSize[1]/2 + "px",
                  "z-index" : 3});
+  mapDragCorner = [-centerLocation[0] + holderSize[0]/2 + Util.offset(imgHolder).left, 
+                   -centerLocation[1] + holderSize[1]/2 + Util.offset(imgHolder).top]; 
 }
