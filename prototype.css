@@ -168,9 +168,20 @@ body {
   padding-right: 10px;
   padding-bottom: 10px;
   z-index: 2;
-
 }
 
+#center_loc {
+
+  background-color: #F2F2F2;
+
+  border-radius: 0.2em;
+  border: 1px solid grey;
+  
+}
+
+#center_loc:hover{
+  background-color: silver;
+}
 
 #plus {
 
@@ -195,9 +206,7 @@ body {
 #minus:hover {
   background-color: silver;
 }
-/* .magnify_buttons:hover {
-  color: red;
-} */
+
 
 #map_image div.elevator {
 
