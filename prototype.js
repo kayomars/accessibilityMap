@@ -335,6 +335,7 @@ function process_touchmove(evt) {
     var setScale = currentScale[0] * zoomScale;
     map.style.transform = "scale(" + setScale + "," + setScale + ")";
 
+    console.log(window.getComputedStyle(map, null).getPropertyValue("transform"));
     console.log(map.style.transform);
     console.log("Zoom scale: " + zoomScale);
   }
