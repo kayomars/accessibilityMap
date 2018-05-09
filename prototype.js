@@ -261,7 +261,7 @@ function processNumFingers (evt) {
 
   // Setup the system for pinching (two fingers)
   if (ongoingTouches.length == 2){
-    pinchDist = sqrt((touchPositions[0]["touchX"] - touchPositions[1]["touchX"]) ** 2
+    pinchDist = Math.sqrt((touchPositions[0]["touchX"] - touchPositions[1]["touchX"]) ** 2
                       + (touchPositions[0]["touchY"] - touchPositions[1]["touchY"]) ** 2);
   }
 }
