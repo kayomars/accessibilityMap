@@ -21,7 +21,7 @@ var buildings = new Map([["7", [1580, 900]], ["5", [1600, 1000]], ["3", [1750, 9
 
 var headingFor32 = "Directions to Building 32";
 var dirCurrentTo32 = "1) Use elevator to get to level 2 \n" + "2) Head East until you reach the end of the hall \n" +
-                     "3) Turn left and head forward 50 feet until you enter Building 16 Turn left and head forward 50 feet until you enter Building 16Turn left and head forward 50 feet until you enter Building 16\n" +
+                     "3) Turn left and head forward 50 feet until you enter Building 16 \n" +
                      "4) Use the elevator on the right to get to level 1 \n" +
                      "5) Head East into Building 56 \n" + "6) Exit to the left on reaching Building 56 \n" +
                      "7) Head straight into Building 32 \n";
