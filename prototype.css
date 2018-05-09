@@ -155,13 +155,16 @@ body {
     margin-right: auto;
 
     overflow: auto;
+
 }
 
 .modal-header {
+
     padding: 2px 16px;
     background-color: #F2F2F2;
 
     font-size: 24px;
+
 }
 
 .modal-body {
@@ -169,11 +172,15 @@ body {
   white-space: pre;
 
   font-size: 18px;
+  overflow: auto;
 }
 
 .modal-footer {
     padding: 2px 16px;
     background-color: #F2F2F2;
+
+    display: flex;
+    justify-content: center;
 }
 
 .modal-content {
@@ -189,6 +196,7 @@ body {
 
     animation-name: animatetop;
     animation-duration: 0.3s
+
 }
 
 @keyframes animatetop {
@@ -208,6 +216,11 @@ body {
     color: black;
     text-decoration: none;
     cursor: pointer;
+}
+
+#finished_nav {
+    border-radius: 0.3em;
+    padding: 5px;
 }
 
 #map_image {

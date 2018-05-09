@@ -21,10 +21,14 @@ var buildings = new Map([["7", [1580, 900]], ["5", [1600, 1000]], ["3", [1750, 9
 
 var headingFor32 = "Directions to Building 32";
 var dirCurrentTo32 = "1) Use elevator to get to level 2 \n" + "2) Head East until you reach the end of the hall \n" +
-                     "3) Turn left and head forward 50 feet until you enter Building 16 \n" +
+                     "3) Turn left and head forward 50 feet until you enter Building 16 Turn left and head forward 50 feet until you enter Building 16Turn left and head forward 50 feet until you enter Building 16\n" +
                      "4) Use the elevator on the right to get to level 1 \n" +
                      "5) Head East into Building 56 \n" + "6) Exit to the left on reaching Building 56 \n" +
                      "7) Head straight into Building 32 \n";
+
+var headingForNone = "No Directions Found!";
+var dirToNone = "We're sorry! \n" +
+                "Directions to your destination could not be found. \n";
 
 
 // Used to toggle filters in a dropdown style
@@ -65,17 +69,15 @@ document.addEventListener('DOMContentLoaded', function () {
   // Used for toggling navigation panels
   var directionPanel = document.getElementById('navigation_pane');
 
-  var btn = document.getElementById("center_loc");
-
   var closeButton = document.getElementsByClassName("close")[0];
+  var closeButton2 = document.getElementById("finished_nav");
 
-  btn.onclick = function() {
-    document.getElementById('modal-body').innerHTML = dirCurrentTo32;
-    document.getElementById('heading_here').innerHTML = headingFor32;
-    directionPanel.style.display = "block";
-  }
 
   closeButton.onclick = function() {
+      directionPanel.style.display = "none";
+  }
+
+  closeButton2.onclick = function() {
       directionPanel.style.display = "none";
   }
 
@@ -495,6 +497,8 @@ function searchMap(searchForm) {
     centerMap(buildings.get(searchTerm));
   }
 
+  navigateTo(searchTerm);
+
   return false;
 }
 
@@ -508,4 +512,19 @@ function centerMap(centerLocation) {
                  "z-index" : 3});
   mapDragCorner = [-centerLocation[0] + holderSize[0]/2 + Util.offset(imgHolder).left,
                    -centerLocation[1] + holderSize[1]/2 + Util.offset(imgHolder).top];
+}
+
+// Returns directions to destination from current location if they exist
+function navigateTo(destination) {
+
+  var directionPanel = document.getElementById('navigation_pane');
+
+  if (destination == "32") {
+    document.getElementById('modal-body').innerHTML = dirCurrentTo32;
+    document.getElementById('heading_here').innerHTML = headingFor32;
+  } else {
+    document.getElementById('modal-body').innerHTML = dirToNone;
+    document.getElementById('heading_here').innerHTML = headingForNone;
+  }
+  directionPanel.style.display = "block";
 }
