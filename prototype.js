@@ -323,6 +323,7 @@ function process_touchmove(evt) {
 
   // Update the zoom if necessary
   if (ongoingTouches.length == 2){
+
     var currPinch = Math.sqrt((ongoingTouches[0].pageX - ongoingTouches[1].pageX) ** 2
                       + (ongoingTouches[0].pageY - ongoingTouches[1].pageY) ** 2);
     var zoomScale = currPinch / pinchDist;
@@ -338,6 +339,8 @@ function process_touchmove(evt) {
     var setScale = values[0] * zoomScale;
     var transformString = "scale(" + setScale + "," + setScale + ")"
     map.style.transform = "scale(" + setScale + "," + setScale + ")";
+
+    pinchDist = currPinch;
 
     // console.log(window.getComputedStyle(map, null).getPropertyValue("transform"));
     // console.log(currentScale[0]);
