@@ -114,10 +114,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
   // Attaching event listener to elevators
-  document.getElementById('elevator-1').addEventListener('click', function () {
-
-    console.log("test");
-  });
+  //document.getElementById('elevator-1').addEventListener('click', function () {
+//
+ //   console.log("test");
+ // });
 
   // Attaching event listener to center_loc button
   document.getElementById('center_loc').addEventListener('click', function () {
