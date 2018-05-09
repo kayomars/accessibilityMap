@@ -11,13 +11,14 @@ var zoomScale = 1;
 // Dummy data here
 var current_loc = [1800, 750];
 var allElevators = [[2100, 810, "6 "], [1590, 860, "7 "], [1830, 790, "10"], [1790, 700, "13"], [1790, 1120, "3 "], [1510, 780, "9 "], [1430, 570, "35"],
-                    [1590, 460, "37"], [1690, 470, "39"], [1860, 480, "24"], [1860, 300, "36"], [2020, 210, "32a"], [2050, 320, "32b"], [2210, 160, "32c"],
-                    [2050, 620, "8 "], [2110, 590, "16"], [2240, 460, "56"]];
+                    [1590, 460, "37"], [1860, 480, "24"], [2020, 210, "32a"], [2050, 320, "32b"], [2210, 160, "32c"],
+                    [2110, 590, "16"], [2240, 460, "56"]];
 var allRamps = [[1510, 860, "7"], [1770, 980, "3"], [2010, 860, "4"], [1920, 300, "36"]];
 var allDoors = [[1510, 900, "7"], [2050, 540, "16"]];
 var allTraffic = [[1600, 890], [1700, 850], [1800, 810], [1900, 760], [2000, 710]];
 var buildings = new Map([["7", [1580, 900]], ["5", [1600, 1000]], ["3", [1750, 980]], ["10", [1820, 730]], ["13", [1700, 680]], ["32", [2100, 210]],
-                 ["26", [2000, 450]], ["36", [1910, 250]], ["34", [1820, 350]], ["stata", [2100, 210]]]);
+                 ["26", [2000, 450]], ["36", [1910, 250]], ["34", [1820, 350]], ["stata", [2100, 210]], ["4", [2050, 860]], ["16", [2110, 550]], 
+                 ["8", [2110, 650]]]);
 
 var headingFor32 = "Directions to Building 32";
 var dirCurrentTo32 = "1) Use elevator to get to level 2 \n" + "2) Head East until you reach the end of the hall \n" +
@@ -500,6 +501,9 @@ function searchMap(searchForm) {
   if (buildings.has(searchTerm)) {
     centerMap(buildings.get(searchTerm));
   }
+  else if (buildings.has(searchTerm.split("-")[0])) {
+    centerMap(buildings.get(searchTerm.split("-")[0]));
+  }
 
   navigateTo(searchTerm);
 
@@ -525,7 +529,7 @@ function navigateTo(destination) {
 
   var directionPanel = document.getElementById('navigation_pane');
 
-  if (destination == "32") {
+  if (destination.substring(0, 2) === "32") {
     document.getElementById('modal-body').innerHTML = dirCurrentTo32;
     document.getElementById('heading_here').innerHTML = headingFor32;
   } else {
