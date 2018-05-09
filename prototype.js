@@ -319,7 +319,7 @@ function process_touchmove(evt) {
 
   // Update the zoom if necessary
   if (ongoingTouches.length == 2){
-    var currPinch = sqrt((ongoingTouches[0].pageX - ongoingTouches[1].pageX) ** 2
+    var currPinch = Math.sqrt((ongoingTouches[0].pageX - ongoingTouches[1].pageX) ** 2
                       + (ongoingTouches[0].pageY - ongoingTouches[1].pageY) ** 2);
     var zoomScale = currPinch / pinchDist;
     console.log("Zoom scale: " + zoomScale);
