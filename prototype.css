@@ -127,6 +127,7 @@ body {
 }
 
 #image_holder {
+
   background-color: transparent;
 
   width: 100vw;
@@ -136,6 +137,90 @@ body {
   border: 1px solid grey;
   z-index: 1;
   overflow: hidden;
+}
+
+
+/* Implemented using tutorials from W3schools */
+#navigation_pane {
+    display: none;
+    position: absolute;
+
+    z-index: 100;
+
+    width: 90%;
+    height: 20%;
+    top: 1%;
+
+    margin-left: auto;
+    margin-right: auto;
+
+    overflow: auto;
+
+}
+
+.modal-header {
+
+    padding: 2px 16px;
+    background-color: #F2F2F2;
+
+    font-size: 24px;
+
+}
+
+.modal-body {
+  padding: 2px 16px;
+  white-space: pre;
+
+  font-size: 18px;
+  overflow: auto;
+}
+
+.modal-footer {
+    padding: 2px 16px;
+    background-color: #F2F2F2;
+
+    display: flex;
+    justify-content: center;
+}
+
+.modal-content {
+    position: relative;
+    background-color: #fefefe;
+
+    border-radius: 2px;
+
+    margin: auto;
+
+    border: 1px solid black;
+    width: 100%;
+
+    animation-name: animatetop;
+    animation-duration: 0.3s
+
+}
+
+@keyframes animatetop {
+    from {top: -300px; opacity: 0}
+    to {top: 0; opacity: 1}
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+#finished_nav {
+    border-radius: 0.3em;
+    padding: 5px;
 }
 
 #map_image {
@@ -176,7 +261,7 @@ body {
 
   border-radius: 0.2em;
   border: 1px solid grey;
-  
+
 }
 
 #center_loc:hover{
@@ -209,7 +294,7 @@ body {
 
 
 #map_image div.elevator {
-  
+
   background-image: url( 'images/elevator_icon1.jpg' );
   background-size: cover;
   display: flex;
@@ -315,7 +400,7 @@ body {
 
 .zoom_in {
   animation-name: zoomIn;
-  animation-duration: 1s;
+  animation-duration: 0.5s;
   animation-iteration-count: 1;
 }
 
@@ -330,7 +415,7 @@ body {
 }
 .zoom_out {
   animation-name: zoomout;
-  animation-duration: 1s;
+  animation-duration: 0.5s;
   animation-iteration-count: 1;
 }
 
@@ -393,9 +478,9 @@ body {
   padding: 5px 0;
   border-radius: 5px;
   border: 1px solid grey;
-  
+
   top: 0px;
-  left: 105%; 
+  left: 105%;
 
   /* Position the tooltip text - see examples below! */
   position: absolute;
