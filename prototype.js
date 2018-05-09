@@ -324,6 +324,10 @@ function process_touchmove(evt) {
     var zoomScale = currPinch / pinchDist;
     console.log("Zoom scale: " + zoomScale);
   }
+
+  // Debug touch information
+  var log = Util.one("#edit-me");
+  log.innerHTML = ongoingTouches.length;
 }
 
 // Handle any touch_end events
