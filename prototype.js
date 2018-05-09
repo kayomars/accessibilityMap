@@ -341,7 +341,7 @@ function process_touchmove(evt) {
 
     // console.log(window.getComputedStyle(map, null).getPropertyValue("transform"));
     // console.log(currentScale[0]);
-    // console.log(setScale);
+    console.log("Zoom scale: " + setScale);
     // console.log(transformString);
     // console.log("Zoom scale: " + zoomScale);
   }
