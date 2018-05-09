@@ -330,9 +330,12 @@ function process_touchmove(evt) {
     // Get the map and its current scale
     var map = document.getElementById("map_image");
     var currentScale = window.getComputedStyle(map, null).getPropertyValue("transform");
+    var values = tr.split('(')[1],
+    values = values.split(')')[0],
+    values = values.split(',');
 
     // Calculate what the new scale value should be and set it
-    var setScale = currentScale[0] * zoomScale;
+    var setScale = values[0] * zoomScale;
     var transformString = "scale(" + setScale + "," + setScale + ")"
     map.style.transform = "scale(" + setScale + "," + setScale + ")";
 
