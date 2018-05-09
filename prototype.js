@@ -261,7 +261,7 @@ function processNumFingers (evt) {
 
   // Setup the system for pinching (two fingers)
   if (ongoingTouches.length == 2){
-    pinchDist = sqrt((touchPositions[0]["touchX"] - touchPositions[1]["touchX"]) ** 2
+    pinchDist = Math.sqrt((touchPositions[0]["touchX"] - touchPositions[1]["touchX"]) ** 2
                       + (touchPositions[0]["touchY"] - touchPositions[1]["touchY"]) ** 2);
   }
 }
@@ -319,7 +319,7 @@ function process_touchmove(evt) {
 
   // Update the zoom if necessary
   if (ongoingTouches.length == 2){
-    var currPinch = sqrt((ongoingTouches[0].pageX - ongoingTouches[1].pageX) ** 2
+    var currPinch = Math.sqrt((ongoingTouches[0].pageX - ongoingTouches[1].pageX) ** 2
                       + (ongoingTouches[0].pageY - ongoingTouches[1].pageY) ** 2);
     var zoomScale = currPinch / pinchDist;
     console.log("Zoom scale: " + zoomScale);
