@@ -132,7 +132,7 @@ document.addEventListener('DOMContentLoaded', function () {
     var map = document.getElementById("map_image");
     map.classList.add("zoom_in");
     var transformBy = getComputedStyle(document.body).getPropertyValue('--transform-by');
-    var newTransformBy = parseFloat(transformBy) + 0.25;
+    var newTransformBy = parseFloat(transformBy) + 0.5;
     document.documentElement.style.setProperty("--initial", transformBy);
     document.documentElement.style.setProperty("--final", newTransformBy);
 
@@ -147,7 +147,7 @@ document.addEventListener('DOMContentLoaded', function () {
   document.getElementById('minus').addEventListener('click', function () {
     var map = document.getElementById("map_image");
     var transformBy = getComputedStyle(document.body).getPropertyValue('--transform-by')
-    var newTransformBy = parseFloat(transformBy) - 0.25;
+    var newTransformBy = parseFloat(transformBy) - 0.5;
     document.documentElement.style.setProperty("--initial", transformBy);
     document.documentElement.style.setProperty("--final", newTransformBy);
     map.classList.add("zoom_out");

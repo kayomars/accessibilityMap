@@ -315,7 +315,7 @@ body {
 
 .zoom_in {
   animation-name: zoomIn;
-  animation-duration: 1s;
+  animation-duration: 0.5s;
   animation-iteration-count: 1;
 }
 
@@ -330,7 +330,7 @@ body {
 }
 .zoom_out {
   animation-name: zoomout;
-  animation-duration: 1s;
+  animation-duration: 0.5s;
   animation-iteration-count: 1;
 }
 
