@@ -66,12 +66,11 @@ document.addEventListener('DOMContentLoaded', function () {
   mapDragCorner = [Util.offset(Util.one("#map_image")).left, Util.offset(Util.one("#map_image")).top];
   newMapDragCorner = [Util.offset(Util.one("#map_image")).left, Util.offset(Util.one("#map_image")).top];
 
-  // Used for toggling navigation panels
+  // Adding functionality to close buttons
   var directionPanel = document.getElementById('navigation_pane');
 
   var closeButton = document.getElementsByClassName("close")[0];
   var closeButton2 = document.getElementById("finished_nav");
-
 
   closeButton.onclick = function() {
       directionPanel.style.display = "none";
