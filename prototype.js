@@ -330,7 +330,7 @@ function process_touchmove(evt) {
     // Get the map and its current scale
     var map = document.getElementById("map_image");
     var currentScale = window.getComputedStyle(map, null).getPropertyValue("transform");
-    var values = tr.split('(')[1],
+    var values = currentScale.split('(')[1],
     values = values.split(')')[0],
     values = values.split(',');
 
