@@ -130,6 +130,10 @@ document.addEventListener('DOMContentLoaded', function () {
     var zoomLevel = getComputedStyle(document.body).getPropertyValue('--zoom-level');
 
     var map = document.getElementById("map_image");
+
+    console.log(window.getComputedStyle(map, null).getPropertyValue("transform"));
+    var map = document.getElementById("map_image");
+
     map.classList.add("zoom_in");
     var transformBy = getComputedStyle(document.body).getPropertyValue('--transform-by');
     var newTransformBy = parseFloat(transformBy) + 0.5;
@@ -322,6 +326,16 @@ function process_touchmove(evt) {
     var currPinch = Math.sqrt((ongoingTouches[0].pageX - ongoingTouches[1].pageX) ** 2
                       + (ongoingTouches[0].pageY - ongoingTouches[1].pageY) ** 2);
     var zoomScale = currPinch / pinchDist;
+
+    // Get the map and its current scale
+    var map = document.getElementById("map_image");
+    var currentScale = window.getComputedStyle(map, null).getPropertyValue("transform");
+
+    // Calculate what the new scale value should be and set it
+    var setScale = currentScale[0] * zoomScale;
+    map.style.transform = "scale(" + setScale + "," + setScale + ")";
+
+    console.log(map.style.transform);
     console.log("Zoom scale: " + zoomScale);
   }
 }
