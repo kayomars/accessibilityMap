@@ -209,7 +209,7 @@ body {
 
 
 #map_image div.elevator {
-
+  
   background-image: url( 'images/elevator_icon1.jpg' );
   background-size: cover;
   display: flex;
@@ -381,3 +381,33 @@ body {
         font-size: 10px
       }
   }
+
+
+/* Tooltip text */
+.tooltiptext {
+  visibility: hidden;
+  width: 120px;
+  background-color: white;
+  color: black;
+  text-align: center;
+  padding: 5px 0;
+  border-radius: 5px;
+  border: 1px solid grey;
+  
+  top: 0px;
+  left: 105%; 
+
+  /* Position the tooltip text - see examples below! */
+  position: absolute;
+  z-index: 10;
+}
+
+/* Show the tooltip text when you mouse over the tooltip container */
+.elevator:hover .tooltiptext {
+  visibility: visible;
+}
+
+/* Show the tooltip text when you mouse over the tooltip container */
+.ramp:hover .tooltiptext {
+  visibility: visible;
+}
