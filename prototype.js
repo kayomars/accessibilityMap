@@ -153,9 +153,13 @@ document.addEventListener('DOMContentLoaded', function () {
     var zoomLevel = getComputedStyle(document.body).getPropertyValue('--zoom-level');
 
     var map = document.getElementById("map_image");
+
+    console.log(window.getComputedStyle(map, null).getPropertyValue("transform"));
+    var map = document.getElementById("map_image");
+
     map.classList.add("zoom_in");
     var transformBy = getComputedStyle(document.body).getPropertyValue('--transform-by');
-    var newTransformBy = parseFloat(transformBy) + 0.25;
+    var newTransformBy = parseFloat(transformBy) + 0.5;
     document.documentElement.style.setProperty("--initial", transformBy);
     document.documentElement.style.setProperty("--final", newTransformBy);
 
@@ -170,7 +174,7 @@ document.addEventListener('DOMContentLoaded', function () {
   document.getElementById('minus').addEventListener('click', function () {
     var map = document.getElementById("map_image");
     var transformBy = getComputedStyle(document.body).getPropertyValue('--transform-by')
-    var newTransformBy = parseFloat(transformBy) - 0.25;
+    var newTransformBy = parseFloat(transformBy) - 0.5;
     document.documentElement.style.setProperty("--initial", transformBy);
     document.documentElement.style.setProperty("--final", newTransformBy);
     map.classList.add("zoom_out");
@@ -284,7 +288,7 @@ function processNumFingers (evt) {
 
   // Setup the system for pinching (two fingers)
   if (ongoingTouches.length == 2){
-    pinchDist = sqrt((touchPositions[0]["touchX"] - touchPositions[1]["touchX"]) ** 2
+    pinchDist = Math.sqrt((touchPositions[0]["touchX"] - touchPositions[1]["touchX"]) ** 2
                       + (touchPositions[0]["touchY"] - touchPositions[1]["touchY"]) ** 2);
   }
 }
@@ -342,10 +346,30 @@ function process_touchmove(evt) {
 
   // Update the zoom if necessary
   if (ongoingTouches.length == 2){
-    var currPinch = sqrt((ongoingTouches[0].pageX - ongoingTouches[1].pageX) ** 2
+
+    var currPinch = Math.sqrt((ongoingTouches[0].pageX - ongoingTouches[1].pageX) ** 2
                       + (ongoingTouches[0].pageY - ongoingTouches[1].pageY) ** 2);
     var zoomScale = currPinch / pinchDist;
-    console.log("Zoom scale: " + zoomScale);
+
+    // Get the map and its current scale
+    var map = document.getElementById("map_image");
+    var currentScale = window.getComputedStyle(map, null).getPropertyValue("transform");
+    var values = currentScale.split('(')[1],
+    values = values.split(')')[0],
+    values = values.split(',');
+
+    // Calculate what the new scale value should be and set it
+    var setScale = values[0] * zoomScale;
+    var transformString = "scale(" + setScale + "," + setScale + ")"
+    map.style.transform = "scale(" + setScale + "," + setScale + ")";
+
+    pinchDist = currPinch;
+
+    // console.log(window.getComputedStyle(map, null).getPropertyValue("transform"));
+    // console.log(currentScale[0]);
+    console.log("Zoom scale: " + setScale);
+    // console.log(transformString);
+    // console.log("Zoom scale: " + zoomScale);
   }
 }
 
