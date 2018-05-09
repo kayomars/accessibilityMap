@@ -337,6 +337,15 @@ body {
   z-index: 5;
 }
 
+#map_image div.pin {
+
+  background-image: url( 'images/pin.png' );
+  background-size: cover;
+  display: flex;
+
+  z-index: 8;
+}
+
 #holder {
 	margin: 50px auto;
 	width: 50px;

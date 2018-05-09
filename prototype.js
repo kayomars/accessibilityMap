@@ -16,9 +16,9 @@ var allElevators = [[2100, 810, "6 "], [1590, 860, "7 "], [1830, 790, "10"], [17
 var allRamps = [[1510, 860, "7"], [1770, 980, "3"], [2010, 860, "4"], [1920, 300, "36"]];
 var allDoors = [[1510, 900, "7"], [2050, 540, "16"]];
 var allTraffic = [[1600, 890], [1700, 850], [1800, 810], [1900, 760], [2000, 710]];
-var buildings = new Map([["7", [1580, 900]], ["5", [1600, 1000]], ["3", [1750, 980]], ["10", [1820, 730]], ["13", [1700, 680]], ["32", [2100, 210]],
-                 ["26", [2000, 450]], ["36", [1910, 250]], ["34", [1820, 350]], ["stata", [2100, 210]], ["4", [2050, 860]], ["16", [2110, 550]], 
-                 ["8", [2110, 650]]]);
+var buildings = new Map([["7", [1550, 870]], ["5", [1600, 1000]], ["3", [1770, 970]], ["10", [1820, 730]], ["13", [1650, 650]], ["32", [2150, 210]],
+                 ["26", [2000, 450]], ["36", [1910, 250]], ["34", [1820, 300]], ["stata", [2100, 210]], ["4", [2050, 860]], ["16", [2150, 500]], 
+                 ["8", [2050, 640]]]);
 
 var headingFor32 = "Directions to Building 32";
 var dirCurrentTo32 = "1) Use elevator to get to level 2 \n" + "2) Head East until you reach the end of the hall \n" +
@@ -66,6 +66,12 @@ document.addEventListener('DOMContentLoaded', function () {
   centerMap(current_loc);
   mapDragCorner = [Util.offset(Util.one("#map_image")).left, Util.offset(Util.one("#map_image")).top];
   newMapDragCorner = [Util.offset(Util.one("#map_image")).left, Util.offset(Util.one("#map_image")).top];
+  
+  var pin = Util.create("div", {"id": "pin", "class": "pin"});
+  Util.css(pin, {"height": "80px", "width" : "50px", "position": "absolute",
+                  "top": current_loc[1] + "px", "left": current_loc[0] + "px", "z-index" : 5});
+  pin.style.display = "none";
+  Util.one("#map_image").appendChild(pin);
 
   // Adding functionality to close buttons
   var directionPanel = document.getElementById('navigation_pane');
@@ -500,9 +506,17 @@ function searchMap(searchForm) {
 
   if (buildings.has(searchTerm)) {
     centerMap(buildings.get(searchTerm));
+    var pin = Util.one("#pin");
+    Util.css(pin, {"left": buildings.get(searchTerm)[0] + "px", 
+                   "top": buildings.get(searchTerm)[1] + "px"}); 
+    pin.style.display = "flex";
   }
   else if (buildings.has(searchTerm.split("-")[0])) {
     centerMap(buildings.get(searchTerm.split("-")[0]));
+    var pin = Util.one("#pin");
+    Util.css(pin, {"left": buildings.get(searchTerm.split("-")[0])[0] + "px", 
+                   "top": buildings.get(searchTerm.split("-")[0])[1] + "px"}); 
+    pin.style.display = "flex";
   }
 
   navigateTo(searchTerm);
