@@ -117,10 +117,14 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // Adding all automatic doors to the map with no visibility
   for (var ii = 0; ii < allDoors.length; ii += 1) {
-    var cell = Util.create("div", {"id": "door-" + ii, "class": "door"});
+    var cell = Util.create("div", {"id": "door-" + allDoors[ii][2], "class": "door"});
     Util.css(cell, {"height": "50px", "width" : "50px", "position": "absolute",
                     "top": allDoors[ii][1] + "px", "left": allDoors[ii][0] + "px",
                     "display": "none", "z-index" : 5});
+                    
+    var tooltip = Util.create("span", {"id": "tooltip-door-" + allDoors[ii][2], "class": "tooltiptext"});
+    tooltip.innerHTML = "Sliding Door <br> Building " + allDoors[ii][2] + "<br> Floors: 1, 2, 5";
+    cell.appendChild(tooltip);
 
     Util.one("#map_image").appendChild(cell);
   }
@@ -210,13 +214,6 @@ document.addEventListener('DOMContentLoaded', function () {
       var holder = Util.one("#image_holder");
       var holderHolder = Util.one(".map_container");
       var img = Util.one("#map_image");
-      console.log(Util.offset(img));
-      console.log(Util.offset(holderHolder));
-
-      var imageCenter = [(Util.offset(img).left + img.clientWidth)/2, (Util.offset(img).rop + img.clientHeight)/2];
-      console.log(mapDragCorner);
-      console.log([evt.clientX, evt.clientY]);
-      console.log(mapDragMouse);
 
       console.log(mapDragCorner[0] + (evt.clientX - mapDragMouse[0])
                           - Util.offset(holderHolder).left);
@@ -509,6 +506,7 @@ function searchMap(searchForm) {
   return false;
 }
 
+
 function centerMap(centerLocation) {
   var imgHolder = Util.one("#image_holder");
   var holderSize = [imgHolder.clientWidth, imgHolder.clientHeight];
@@ -520,6 +518,7 @@ function centerMap(centerLocation) {
   mapDragCorner = [-centerLocation[0] + holderSize[0]/2 + Util.offset(imgHolder).left,
                    -centerLocation[1] + holderSize[1]/2 + Util.offset(imgHolder).top];
 }
+
 
 // Returns directions to destination from current location if they exist
 function navigateTo(destination) {

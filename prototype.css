@@ -496,3 +496,8 @@ body {
 .ramp:hover .tooltiptext {
   visibility: visible;
 }
+
+/* Show the tooltip text when you mouse over the tooltip container */
+.door:hover .tooltiptext {
+  visibility: visible;
+}
