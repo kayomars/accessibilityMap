@@ -284,7 +284,7 @@ function processNumFingers (evt) {
     console.log("woo 1 touch");
 
     var img = Util.one("#map_image");
-    mapDragCorner = [Util.offset(img).left, Util.offset(img).top];
+    //mapDragCorner = [Util.offset(img).left, Util.offset(img).top];
     mapDragMode = true;
   }
 
@@ -335,15 +335,21 @@ function process_touchmove(evt) {
   // Update the drag position if necessary
   if (ongoingTouches.length == 1){
     // Find image and its parents
-      var holderHolder = Util.one(".map_container");
-      var img = Util.one("#map_image");
+    var holder = Util.one("#image_holder");
+    var holderHolder = Util.one(".map_container");
+    var img = Util.one("#map_image");
 
-      // Change the image offset by the mouse position delta
-      Util.css(img, {"left" : mapDragCorner[0] - Util.offset(holderHolder).left
-                        + (ongoingTouches[0].pageX - touchPositions[0]["touchX"]) + "px",
-                     "top" : mapDragCorner[1] - Util.offset(holderHolder).top
-                        + (ongoingTouches[0].pageY - touchPositions[0]["touchY"]) + "px",
-                      "z-index" : 3});
+    newMapDragCorner = [mapDragCorner[0] + (ongoingTouches[0].pageX - touchPositions[0]["touchX"]) ,
+                        mapDragCorner[1] + (ongoingTouches[0].pageY - touchPositions[0]["touchY"]) ];
+    Util.css(img, {"left" : newMapDragCorner[0] - Util.offset(holderHolder).left + "px",
+    "top" : newMapDragCorner[1] - Util.offset(holderHolder).top+ "px"}); 
+    // Change the image offset by the mouse position delta
+    // Util.css(img, {"left" : mapDragCorner[0] - Util.offset(holderHolder).left
+                      // + (ongoingTouches[0].pageX - touchPositions[0]["touchX"]) + "px",
+                   // "top" : mapDragCorner[1] - Util.offset(holderHolder).top
+                      // + (ongoingTouches[0].pageY - touchPositions[0]["touchY"]) + "px",
+                    // "z-index" : 3});
+                      
   }
 
   // Update the zoom if necessary
@@ -393,6 +399,8 @@ function process_touchend(evt) {
       console.log("can't figure out which touch to end");
     }
   }
+  
+  mapDragCorner = newMapDragCorner; 
 
   // Setup for however many fingers are touching
   processNumFingers(evt);
