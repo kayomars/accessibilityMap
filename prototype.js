@@ -19,6 +19,13 @@ var allTraffic = [[1600, 890], [1700, 850], [1800, 810], [1900, 760], [2000, 710
 var buildings = new Map([["7", [1580, 900]], ["5", [1600, 1000]], ["3", [1750, 980]], ["10", [1820, 730]], ["13", [1700, 680]], ["32", [2100, 210]],
                  ["26", [2000, 450]], ["36", [1910, 250]], ["34", [1820, 350]], ["stata", [2100, 210]]]);
 
+var headingFor32 = "Directions to Building 32";
+var dirCurrentTo32 = "1) Use elevator to get to level 2 \n" + "2) Head East until you reach the end of the hall \n" +
+                     "3) Turn left and head forward 50 feet until you enter Building 16 \n" +
+                     "4) Use the elevator on the right to get to level 1 \n" +
+                     "5) Head East into Building 56 \n" + "6) Exit to the left on reaching Building 56 \n" +
+                     "7) Head straight into Building 32 \n";
+
 
 // Used to toggle filters in a dropdown style
 function toggleFilters() {
@@ -55,6 +62,22 @@ document.addEventListener('DOMContentLoaded', function () {
   mapDragCorner = [Util.offset(Util.one("#map_image")).left, Util.offset(Util.one("#map_image")).top];
   newMapDragCorner = [Util.offset(Util.one("#map_image")).left, Util.offset(Util.one("#map_image")).top];
 
+  // Used for toggling navigation panels
+  var directionPanel = document.getElementById('navigation_pane');
+
+  var btn = document.getElementById("center_loc");
+
+  var closeButton = document.getElementsByClassName("close")[0];
+
+  btn.onclick = function() {
+    document.getElementById('modal-body').innerHTML = dirCurrentTo32;
+    document.getElementById('heading_here').innerHTML = headingFor32;
+    directionPanel.style.display = "block";
+  }
+
+  closeButton.onclick = function() {
+      directionPanel.style.display = "none";
+  }
 
   // Adding location marker to the map
   var pulse_holder = Util.create("div", {"id": "holder"});
@@ -71,9 +94,9 @@ document.addEventListener('DOMContentLoaded', function () {
                     "top": allElevators[ii][1] + "px", "left": allElevators[ii][0] + "px", "z-index" : 5});
 
     var tooltip = Util.create("span", {"id": "tooltip-elevator-" + allElevators[ii][2], "class": "tooltiptext"});
-    tooltip.innerHTML = "Elevator <br> Building " + allElevators[ii][2].substring(0, 2) + "<br> Floors: 1-5"; 
-    cell.appendChild(tooltip); 
-    
+    tooltip.innerHTML = "Elevator <br> Building " + allElevators[ii][2].substring(0, 2) + "<br> Floors: 1-5";
+    cell.appendChild(tooltip);
+
     Util.one("#map_image").appendChild(cell);
   }
 
@@ -85,9 +108,9 @@ document.addEventListener('DOMContentLoaded', function () {
                     "display": "none", "z-index" : 5});
 
     var tooltip = Util.create("span", {"id": "tooltip-ramp-" + allRamps[ii][2], "class": "tooltiptext"});
-    tooltip.innerHTML = "Ramp <br> Building " + allRamps[ii][2] + "<br> Floors: 1"; 
-    cell.appendChild(tooltip); 
-    
+    tooltip.innerHTML = "Ramp <br> Building " + allRamps[ii][2] + "<br> Floors: 1";
+    cell.appendChild(tooltip);
+
     Util.one("#map_image").appendChild(cell);
   }
 
@@ -459,6 +482,6 @@ function centerMap(centerLocation) {
   Util.css(img, {"left" : -centerLocation[0] + holderSize[0]/2 + "px",
                  "top" : -centerLocation[1] + holderSize[1]/2 + "px",
                  "z-index" : 3});
-  mapDragCorner = [-centerLocation[0] + holderSize[0]/2 + Util.offset(imgHolder).left, 
-                   -centerLocation[1] + holderSize[1]/2 + Util.offset(imgHolder).top]; 
+  mapDragCorner = [-centerLocation[0] + holderSize[0]/2 + Util.offset(imgHolder).left,
+                   -centerLocation[1] + holderSize[1]/2 + Util.offset(imgHolder).top];
 }
