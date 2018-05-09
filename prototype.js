@@ -339,11 +339,11 @@ function process_touchmove(evt) {
     var transformString = "scale(" + setScale + "," + setScale + ")"
     map.style.transform = "scale(" + setScale + "," + setScale + ")";
 
-    console.log(window.getComputedStyle(map, null).getPropertyValue("transform"));
-    console.log(currentScale[0]);
-    console.log(setScale);
-    console.log(transformString);
-    console.log("Zoom scale: " + zoomScale);
+    // console.log(window.getComputedStyle(map, null).getPropertyValue("transform"));
+    // console.log(currentScale[0]);
+    // console.log(setScale);
+    // console.log(transformString);
+    // console.log("Zoom scale: " + zoomScale);
   }
 }
 
